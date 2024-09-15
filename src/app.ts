@@ -13,7 +13,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use("/api/v1/", router);
-app.use(notFoundRoute);
 app.use(globalErrorHandler);
+app.use(notFoundRoute);
 
 export default app;

@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Student = void 0;
 const mongoose_1 = require("mongoose");
+const user_model_1 = require("../user/user.model");
 const userNameSchema = new mongoose_1.Schema({
     firstName: { type: String, required: true },
     middleName: { type: String },
@@ -21,11 +23,21 @@ const localGuardianSchema = new mongoose_1.Schema({
     address: { type: String, required: true },
 });
 const studentSchema = new mongoose_1.Schema({
-    id: { type: String },
+    id: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    user: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        required: [true, "User Id is required"],
+        unique: true,
+        ref: user_model_1.User,
+    },
     name: userNameSchema,
     gender: { type: String, enum: ["male", "female", "others"] },
-    dateOfBirth: { type: String },
     email: { type: String, required: true },
+    dateOfBirth: { type: String },
     contactNo: { type: String, required: true },
     emergencyContactNo: { type: String, required: true },
     bloodGroup: {
@@ -35,10 +47,8 @@ const studentSchema = new mongoose_1.Schema({
     presentAddress: { type: String, required: true },
     permanentAddress: { type: String, required: true },
     profileImage: { type: String },
-    isActive: { type: String, enum: ["active", "inActive"], default: "active" },
     avatar: { type: String },
     guardian: guardianSchema,
     localGuardian: localGuardianSchema,
 });
-const StudentModel = (0, mongoose_1.model)("Student", studentSchema);
-exports.default = StudentModel;
+exports.Student = (0, mongoose_1.model)("Student", studentSchema);

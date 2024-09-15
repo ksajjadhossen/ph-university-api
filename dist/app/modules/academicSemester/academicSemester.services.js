@@ -9,22 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.studentServices = void 0;
-const student_model_1 = require("./student.model");
-const createStudentIntoDB = (student) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield student_model_1.Student.create(student);
+exports.academicSemesterServices = void 0;
+const academicSemester_model_1 = require("./academicSemester.model");
+const createAcademicSemesterIntoDb = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield academicSemester_model_1.AcademicSemesterModel.create(payload);
     return result;
 });
-const getAllStudentsFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield student_model_1.Student.find();
-    return result;
-});
-const findStudentFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield student_model_1.Student.findOne({ id });
-    return result;
-});
-exports.studentServices = {
-    createStudentIntoDB,
-    getAllStudentsFromDB,
-    findStudentFromDB,
+exports.academicSemesterServices = {
+    createAcademicSemesterIntoDb,
 };

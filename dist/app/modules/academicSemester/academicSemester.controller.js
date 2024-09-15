@@ -12,31 +12,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.studentControllers = void 0;
+exports.academicSemesterController = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
-const student_service_1 = require("./student.service");
-const getAllStudents = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield student_service_1.studentServices.getAllStudentsFromDB();
+const academicSemester_services_1 = require("./academicSemester.services");
+const createAcademicSemester = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield academicSemester_services_1.academicSemesterServices.createAcademicSemesterIntoDb(req.body);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         Success: true,
-        message: "student created successfully",
+        message: "Academic semester is created Successfully",
         data: result,
     });
 }));
-const findStudentById = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { studentId } = req.params;
-    const result = yield student_service_1.studentServices.findStudentFromDB(studentId);
-    (0, sendResponse_1.default)(res, {
-        statusCode: http_status_1.default.OK,
-        Success: true,
-        message: "student created successfully",
-        data: result,
-    });
-}));
-exports.studentControllers = {
-    getAllStudents,
-    findStudentById,
+exports.academicSemesterController = {
+    createAcademicSemester,
 };
