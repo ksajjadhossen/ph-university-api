@@ -26,6 +26,27 @@ const createAcademicSemester = (0, catchAsync_1.default)((req, res) => __awaiter
         data: result,
     });
 }));
+const getAllAcademicSemester = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield academicSemester_services_1.academicSemesterServices.getAllAcademicSemesterFromDB();
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        Success: true,
+        message: "Academic semester is created Successfully",
+        data: result,
+    });
+}));
+const findSingleSemesterById = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { studentId } = req.params;
+    const result = yield academicSemester_services_1.academicSemesterServices.getSingleStudentById(studentId);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        Success: true,
+        message: "Academic Semester found by id",
+        data: result,
+    });
+}));
 exports.academicSemesterController = {
     createAcademicSemester,
+    getAllAcademicSemester,
+    findSingleSemesterById,
 };

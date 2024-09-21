@@ -20,6 +20,7 @@ const createUserIntoDB = (password, payload) => __awaiter(void 0, void 0, void 0
     const userData = {};
     userData.password = password || config_1.default.default_password;
     userData.role = "student";
+    const generateStudentId = (payload) => { };
     userData.id = "20240100098" + userData.id || "202401089";
     const newUser = yield user_model_1.User.create(userData);
     if (Object.keys(newUser).length) {

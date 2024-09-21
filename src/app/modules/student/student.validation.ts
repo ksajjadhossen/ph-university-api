@@ -64,6 +64,8 @@ const createStudentValidationSchema = z.object({
 				.optional(),
 			presentAddress: z.string(),
 			permanentAddress: z.string(),
+			admissionSemester: z.string(),
+			profileImage: z.string(),
 			guardian: guardianSchema,
 			localGuardian: localGuardianSchema,
 		}),
