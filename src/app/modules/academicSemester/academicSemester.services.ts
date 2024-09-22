@@ -20,9 +20,17 @@ const getSingleStudentById = async (id: string) => {
 	const result = AcademicSemesterModel.findOne({ id });
 	return result;
 };
+const findAcademicSemesterAndUpdate = async (
+	id: string,
+	payload: TAcademicSemester
+) => {
+	const result = AcademicSemesterModel.findByIdAndUpdate(id, payload);
+	return result;
+};
 
 export const academicSemesterServices = {
 	createAcademicSemesterIntoDb,
 	getAllAcademicSemesterFromDB,
 	getSingleStudentById,
+	findAcademicSemesterAndUpdate,
 };

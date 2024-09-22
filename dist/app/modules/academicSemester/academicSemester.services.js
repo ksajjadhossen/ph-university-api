@@ -27,8 +27,13 @@ const getSingleStudentById = (id) => __awaiter(void 0, void 0, void 0, function*
     const result = academicSemester_model_1.AcademicSemesterModel.findOne({ id });
     return result;
 });
+const findAcademicSemesterAndUpdate = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = academicSemester_model_1.AcademicSemesterModel.findByIdAndUpdate(id, payload);
+    return result;
+});
 exports.academicSemesterServices = {
     createAcademicSemesterIntoDb,
     getAllAcademicSemesterFromDB,
     getSingleStudentById,
+    findAcademicSemesterAndUpdate,
 };
