@@ -48,7 +48,6 @@ const findSingleSemesterById = (0, catchAsync_1.default)((req, res) => __awaiter
 const updateSemesterById = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
     const { semesterId } = req.params;
-    console.log(data);
     const result = yield academicSemester_services_1.academicSemesterServices.findAcademicSemesterAndUpdate(semesterId, data);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,

@@ -39,8 +39,6 @@ const findSingleSemesterById = catchAsync(async (req, res) => {
 const updateSemesterById = catchAsync(async (req, res) => {
 	const data = req.body;
 	const { semesterId } = req.params;
-
-	console.log(data);
 	const result = await academicSemesterServices.findAcademicSemesterAndUpdate(
 		semesterId,
 		data
