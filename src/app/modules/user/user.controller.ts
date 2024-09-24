@@ -7,7 +7,8 @@ import { userServices } from "./user.services";
 const createStudent: RequestHandler = catchAsync(
 	async (req: Request, res: Response) => {
 		const { password, student } = req.body;
-		const result = await userServices.createUserIntoDB(password, student);
+
+		const result = await userServices.createStudent(password, student);
 		sendResponse(res, {
 			statusCode: httpStatus.OK,
 			Success: true,
