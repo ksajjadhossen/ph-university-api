@@ -28,6 +28,7 @@ const createStudent = async (password: string, payload: IStudent) => {
 	}
 
 	userData.id = await generateStudentId(admissionSemester);
+	console.log(userData.id);
 	payload.id = userData.id;
 
 	const newStudent = await Student.create(payload);
