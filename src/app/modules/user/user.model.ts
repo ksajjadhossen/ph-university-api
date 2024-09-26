@@ -6,6 +6,11 @@ import { IUser } from "./user.interface";
 
 const userSchema = new Schema<IUser>(
 	{
+		id: {
+			type: String,
+			required: true,
+			unique: true,
+		},
 		password: {
 			type: String,
 			required: true,
@@ -26,7 +31,6 @@ const userSchema = new Schema<IUser>(
 
 userSchema.pre("save", async function (next) {
 	const user = this as IUser;
-	console.log(user.password);
 	user.password = await bcrypt.hash(
 		user.password,
 		Number(config.bcrypt_salt_rounds)

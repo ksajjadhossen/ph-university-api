@@ -33,7 +33,6 @@ const studentSchema = new Schema<IStudent>({
 	id: {
 		type: String,
 		required: true,
-		unique: true,
 	},
 	user: {
 		type: Schema.Types.ObjectId,
@@ -54,7 +53,7 @@ const studentSchema = new Schema<IStudent>({
 	presentAddress: { type: String, required: true },
 	permanentAddress: { type: String, required: true },
 	profileImage: { type: String },
-	admissionSemester: { type: Schema.Types.ObjectId, ref: "AcademicSemester" },
+	admissionSemester: { type: Schema.Types.ObjectId, ref: "academicSemester" },
 	avatar: { type: String },
 	guardian: guardianSchema,
 	localGuardian: localGuardianSchema,
