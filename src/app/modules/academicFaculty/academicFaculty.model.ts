@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 import { IAcademicFaculty } from "./academicFaculty.interface";
 
 const academicFacultySchema = new Schema<IAcademicFaculty>(
@@ -12,4 +12,9 @@ const academicFacultySchema = new Schema<IAcademicFaculty>(
 	{
 		timestamps: true,
 	}
+);
+
+export const AcademicFaculty = model<IAcademicFaculty>(
+	"AcademicFaculty",
+	academicFacultySchema
 );

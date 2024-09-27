@@ -1,0 +1,47 @@
+import { RequestHandler } from "express";
+import httpStatus from "http-status";
+import catchAsync from "../../utils/catchAsync";
+import sendResponse from "../../utils/sendResponse";
+import { academicFacultyServices } from "./academicFaculty.services";
+
+const createAcademicFaculty: RequestHandler = catchAsync(async (req, res) => {
+	const data = req.body;
+	const result = await academicFacultyServices.createAcademicFaculty(data);
+	console.log(result);
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		message: "create academic faculty is done",
+		Success: true,
+		data: result,
+	});
+});
+const findAllAcademicFaculty: RequestHandler = catchAsync(async (req, res) => {
+	const result = await academicFacultyServices.getAllAcademicFaculty();
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		Success: true,
+		message: "Here is all Academic Faculty",
+		data: result,
+	});
+});
+
+const findSingleAcademicFacultyById: RequestHandler = catchAsync(
+	async (req, res) => {
+		const { FacultyId } = req.params;
+		const result = await academicFacultyServices.getSingleAcademicFacultyById(
+			FacultyId
+		);
+		console.log(result);
+		sendResponse(res, {
+			statusCode: httpStatus.OK,
+			Success: true,
+			message: "single Academic Faculty Found",
+			data: result,
+		});
+	}
+);
+export const academicFacultyController = {
+	createAcademicFaculty,
+	findAllAcademicFaculty,
+	findSingleAcademicFacultyById,
+};
