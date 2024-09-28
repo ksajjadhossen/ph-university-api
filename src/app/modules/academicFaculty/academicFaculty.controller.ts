@@ -31,7 +31,6 @@ const findSingleAcademicFacultyById: RequestHandler = catchAsync(
 		const result = await academicFacultyServices.getSingleAcademicFacultyById(
 			FacultyId
 		);
-		console.log(result);
 		sendResponse(res, {
 			statusCode: httpStatus.OK,
 			Success: true,
@@ -40,8 +39,25 @@ const findSingleAcademicFacultyById: RequestHandler = catchAsync(
 		});
 	}
 );
+
+const updateAcademicFaculty = catchAsync(async (req, res) => {
+	const data = req.body;
+	const { FacultyId } = req.params;
+	const result = await academicFacultyServices.updateAcademicFaculty(
+		FacultyId,
+		data
+	);
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		Success: true,
+		message: "Academic Faculty updated",
+		data: result,
+	});
+});
+
 export const academicFacultyController = {
 	createAcademicFaculty,
 	findAllAcademicFaculty,
 	findSingleAcademicFacultyById,
+	updateAcademicFaculty,
 };

@@ -14,9 +14,14 @@ const getSingleAcademicFacultyById = async (id: string) => {
 	const result = await AcademicFaculty.findById(id);
 	return result;
 };
+const updateAcademicFaculty = async (id: string, payload: IAcademicFaculty) => {
+	const result = await AcademicFaculty.findByIdAndUpdate(id, payload);
+	return result;
+};
 
 export const academicFacultyServices = {
 	createAcademicFaculty,
 	getAllAcademicFaculty,
 	getSingleAcademicFacultyById,
+	updateAcademicFaculty,
 };

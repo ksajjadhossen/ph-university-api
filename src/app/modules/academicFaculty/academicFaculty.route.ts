@@ -19,5 +19,6 @@ router.get(
 	"/:FacultyId",
 	academicFacultyController.findSingleAcademicFacultyById
 );
+router.patch("/:FacultyId", academicFacultyController.updateAcademicFaculty);
 
 export const academicFacultyRoute = router;
