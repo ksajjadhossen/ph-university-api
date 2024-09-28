@@ -7,7 +7,6 @@ import { academicFacultyServices } from "./academicFaculty.services";
 const createAcademicFaculty: RequestHandler = catchAsync(async (req, res) => {
 	const data = req.body;
 	const result = await academicFacultyServices.createAcademicFaculty(data);
-	console.log(result);
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
 		message: "create academic faculty is done",
