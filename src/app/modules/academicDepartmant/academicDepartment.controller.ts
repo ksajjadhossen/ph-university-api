@@ -40,7 +40,6 @@ const findSingleAcademicDepartmentById = catchAsync(async (req, res) => {
 	});
 });
 const updateSingleAcademicDepartmentById = catchAsync(async (req, res) => {
-	console.log("helloooo");
 	const { AcademicDepartmentId } = req.params;
 	const data = req.body;
 	const result =
