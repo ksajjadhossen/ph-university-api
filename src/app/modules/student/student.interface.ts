@@ -36,6 +36,7 @@ export type IStudent = {
 	permanentAddress: string;
 	profileImage?: string | undefined;
 	admissionSemester: Types.ObjectId;
+	academicDepartment: Types.ObjectId;
 	avatar?: string | undefined;
 	guardian: IGuardian;
 	localGuardian: ILocalGuardian;

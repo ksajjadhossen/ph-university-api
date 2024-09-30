@@ -20,7 +20,7 @@ const findStudentById: RequestHandler = catchAsync(async (req, res) => {
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
 		Success: true,
-		message: "student created successfully",
+		message: "student found successfully",
 		data: result,
 	});
 });
