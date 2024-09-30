@@ -29,6 +29,21 @@ academicDepartmentSchema.pre("save", async function (next) {
 	next();
 });
 
+class appError extends Error {
+	public statusCode: number;
+
+	constructor(statusCode: number, message: string, stack = "") {
+		super(message);
+		this.statusCode = statusCode;
+
+		if (stack) {
+			this.stack = stack;
+		} else {
+			// error.captureStackTrace(this, this.constructor);
+		}
+	}
+}
+
 academicDepartmentSchema.pre("findOneAndUpdate", async function (next) {
 	const query = this.getQuery();
 	const isDepartmentIdExist = await AcademicDepartment.findOne(query);
