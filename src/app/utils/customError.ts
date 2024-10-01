@@ -1,13 +1,19 @@
-import { TCustomError } from "../types/index";
+import { NextFunction, Request } from "express";
 
-export function customError(
-	success: boolean = false,
-	status: number = 500,
-	message: string = "something went wrong"
-) {
-	const err: TCustomError = new Error(message);
-	err.status = status;
-	err.success = success;
+const globalErrorhandler = (
+	err: any,
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+	const statusCode = err.statusCode || 500;
+	const message = err.message || "Something went wrong";
 
-	return err;
-}
+	return res.status(statusCode).json({
+		success: false,
+		message,
+		error: err,
+	});
+};
+
+export default globalErrorhandler;
