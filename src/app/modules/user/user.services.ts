@@ -25,7 +25,7 @@ const createStudent = async (password: string, payload: IStudent) => {
 	const session = await mongoose.startSession();
 
 	try {
-		(await session).startTransaction();
+		session.startTransaction();
 		userData.id = await generateStudentId(admissionSemester);
 		payload.id = userData.id;
 		const newUser = await User.create([userData], { session });
@@ -45,8 +45,8 @@ const createStudent = async (password: string, payload: IStudent) => {
 			);
 		}
 
-		session.commitTransaction();
-		session.endSession();
+		await session.commitTransaction();
+		await session.endSession();
 		return newStudent;
 	} catch (error) {
 		await session.abortTransaction();

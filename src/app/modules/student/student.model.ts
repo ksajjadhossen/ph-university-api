@@ -61,6 +61,7 @@ const studentSchema = new Schema<IStudent>({
 	avatar: { type: String },
 	guardian: guardianSchema,
 	localGuardian: localGuardianSchema,
+	isDeleted: { type: Boolean, default: false },
 });
 
 export const Student = model<IStudent>("Student", studentSchema);

@@ -40,4 +40,5 @@ export type IStudent = {
 	avatar?: string | undefined;
 	guardian: IGuardian;
 	localGuardian: ILocalGuardian;
+	isDeleted: boolean;
 };

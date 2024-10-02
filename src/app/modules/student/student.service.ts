@@ -23,8 +23,39 @@ const findStudentFromDB = async (id: string) => {
 	return result;
 };
 
+// const deleteStudentFromDB = async (id: string) => {
+// 	const session = await mongoose.startSession();
+// 	try {
+// 		session.startTransaction();
+// 		const deletedStudent = await Student.findOneAndUpdate(
+// 			{ id },
+// 			{ isDeleted: true },
+// 			{ new: true, session }
+// 		);
+// 		if (!deletedStudent) {
+// 			throw new AppError(httpStatus.BAD_REQUEST, "Failed to delete");
+// 		}
+// 		await session.commitTransaction();
+// 		await session.endSession();
+// 		return deletedStudent;
+// 	} catch (error) {
+// 		await session.abortTransaction();
+// 		await session.endSession();
+// 	}
+// };
+const deleteStudentFromDB = async (id: string) => {
+	const deletedStudent = await Student.findOneAndUpdate(
+		{ id },
+		{ isDeleted: true },
+		{ new: true }
+	);
+
+	return deletedStudent;
+};
+
 export const studentServices = {
 	createStudentIntoDB,
 	getAllStudentsFromDB,
 	findStudentFromDB,
+	deleteStudentFromDB,
 };

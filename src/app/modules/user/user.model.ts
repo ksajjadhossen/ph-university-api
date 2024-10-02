@@ -23,6 +23,7 @@ const userSchema = new Schema<IUser>(
 			type: String,
 			enum: ["student", "faculty", "admin"],
 		},
+		isDeleted: { type: Boolean, default: false },
 	},
 	{
 		timestamps: true,
