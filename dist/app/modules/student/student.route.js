@@ -9,4 +9,6 @@ const student_controller_1 = require("./student.controller");
 const router = express_1.default.Router();
 router.get("/", student_controller_1.studentControllers.getAllStudents);
 router.get("/:studentId", student_controller_1.studentControllers.findStudentById);
+router.patch("/:studentId", student_controller_1.studentControllers.updateStudentIntoDB);
+router.delete("/:studentId", student_controller_1.studentControllers.deleteStudentById);
 exports.studentRouter = router;

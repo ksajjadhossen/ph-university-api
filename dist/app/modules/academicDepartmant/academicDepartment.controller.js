@@ -12,53 +12,53 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.studentControllers = void 0;
+exports.academicDepartmentController = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
-const student_service_1 = require("./student.service");
-const getAllStudents = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield student_service_1.studentServices.getAllStudentsFromDB();
+const academicDepartment_services_1 = require("./academicDepartment.services");
+const createAcademicDepartment = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield academicDepartment_services_1.academicDepartmentServices.createAcademicDepartment(req.body);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         Success: true,
-        message: "student created successfully",
+        message: "AcademicDepartment created successfully",
         data: result,
     });
 }));
-const findStudentById = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { studentId } = req.params;
-    const result = yield student_service_1.studentServices.findStudentFromDB(studentId);
+const findAllAcademicDepartment = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield academicDepartment_services_1.academicDepartmentServices.findAllAcademicDepartmentService();
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         Success: true,
-        message: "student found successfully",
+        message: "academic Department found successfully.",
         data: result,
     });
 }));
-const updateStudentIntoDB = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { studentId } = req.params;
-    const result = yield student_service_1.studentServices.updateStudentIntoDB(studentId, req.body.student);
+const findSingleAcademicDepartmentById = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { AcademicDepartmentId } = req.params;
+    const result = yield academicDepartment_services_1.academicDepartmentServices.findSingleAcademicDepartmentById(AcademicDepartmentId);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         Success: true,
-        message: "student Updated successfully",
+        message: "Single Academic Department found",
         data: result,
     });
 }));
-const deleteStudentById = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { studentId } = req.params;
-    const result = yield student_service_1.studentServices.deleteStudentFromDB(studentId);
+const updateSingleAcademicDepartmentById = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { AcademicDepartmentId } = req.params;
+    const data = req.body;
+    const result = yield academicDepartment_services_1.academicDepartmentServices.updateSingleAcademicDepartmentById(AcademicDepartmentId, data);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         Success: true,
-        message: "student deleted successfully",
+        message: " Academic Department updated",
         data: result,
     });
 }));
-exports.studentControllers = {
-    getAllStudents,
-    findStudentById,
-    deleteStudentById,
-    updateStudentIntoDB,
+exports.academicDepartmentController = {
+    createAcademicDepartment,
+    findAllAcademicDepartment,
+    findSingleAcademicDepartmentById,
+    updateSingleAcademicDepartmentById,
 };

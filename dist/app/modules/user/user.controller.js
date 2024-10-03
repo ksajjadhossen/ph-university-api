@@ -19,7 +19,7 @@ const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const user_services_1 = require("./user.services");
 const createStudent = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { password, student } = req.body;
-    const result = yield user_services_1.userServices.createUserIntoDB(password, student);
+    const result = yield user_services_1.userServices.createStudent(password, student);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         Success: true,

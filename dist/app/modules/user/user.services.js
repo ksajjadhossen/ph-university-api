@@ -13,24 +13,45 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userServices = void 0;
+const http_status_1 = __importDefault(require("http-status"));
+const mongoose_1 = __importDefault(require("mongoose"));
 const config_1 = __importDefault(require("../../config"));
+const academicSemester_model_1 = require("../academicSemester/academicSemester.model");
 const student_model_1 = require("../student/student.model");
 const user_model_1 = require("./user.model");
-const createUserIntoDB = (password, payload) => __awaiter(void 0, void 0, void 0, function* () {
+const user_utils_1 = require("./user.utils");
+// create student into db
+const createStudent = (password, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const userData = {};
     userData.password = password || config_1.default.default_password;
     userData.role = "student";
-    const generateStudentId = (payload) => { };
-    userData.id = "20240100098" + userData.id || "202401089";
-    const newUser = yield user_model_1.User.create(userData);
-    if (Object.keys(newUser).length) {
-        payload.id = newUser.id;
-        payload.user = newUser._id; // reference _id
-        // create a student
-        const newStudent = yield student_model_1.Student.create(payload);
+    const admissionSemester = yield academicSemester_model_1.AcademicSemesterModel.findById(payload.admissionSemester);
+    if (!admissionSemester) {
+        throw new Error("Admission Semester not found");
+    }
+    const session = yield mongoose_1.default.startSession();
+    try {
+        session.startTransaction();
+        userData.id = yield (0, user_utils_1.generateStudentId)(admissionSemester);
+        payload.id = userData.id;
+        const newUser = yield user_model_1.User.create([userData], { session });
+        if (!newUser) {
+            throw new AppError(http_status_1.default.BAD_REQUEST, "Transaction failed to create User");
+        }
+        payload.user = newUser[0]._id;
+        const newStudent = yield student_model_1.Student.create([payload], { session });
+        if (!newStudent) {
+            throw new AppError(http_status_1.default.BAD_REQUEST, "Transaction failed to create Student");
+        }
+        yield session.commitTransaction();
+        yield session.endSession();
         return newStudent;
+    }
+    catch (error) {
+        yield session.abortTransaction();
+        yield session.endSession();
     }
 });
 exports.userServices = {
-    createUserIntoDB,
+    createStudent,
 };
