@@ -1,5 +1,6 @@
 import httpStatus from "http-status";
 import mongoose from "mongoose";
+import makeFlattenedObject from "../../utils/makeFlattenObject";
 import { User } from "../user/user.model";
 import { IStudent } from "./student.interface";
 import { Student } from "./student.model";
@@ -23,6 +24,16 @@ const getAllStudentsFromDB = async () => {
 };
 const findStudentFromDB = async (id: string) => {
 	const result = await Student.findById(id);
+	return result;
+};
+
+const updateStudentIntoDB = async (id: string, payload: Partial<IStudent>) => {
+	const updatedFlattenData = makeFlattenedObject(payload);
+	const result = await Student.findOneAndUpdate({ id }, updatedFlattenData, {
+		new: true,
+		runValidators: true,
+	});
+
 	return result;
 };
 
@@ -53,6 +64,7 @@ const deleteStudentFromDB = async (id: string) => {
 	} catch (error) {
 		await session.abortTransaction();
 		await session.endSession();
+		throw new Error("failed to delete student");
 	}
 };
 // const deleteStudentFromDB = async (id: string) => {
@@ -70,4 +82,5 @@ export const studentServices = {
 	getAllStudentsFromDB,
 	findStudentFromDB,
 	deleteStudentFromDB,
+	updateStudentIntoDB,
 };

@@ -72,5 +72,77 @@ const createStudentValidationSchema = z.object({
 		}),
 	}),
 });
+const updateUserNameSchema = z.object(
+	{
+		firstName: z
+			.string({ message: "firstName is required" })
+			.min(3, "firstName must be more than 3 characters")
+			.max(20, "firstName can't be more than 20 characters")
+			.transform(capitalize)
+			.optional(),
+		// .refine(isCapitalized, { message: "firstName must be capitalized" })
+		middleName: z.string().optional(),
+		lastName: z
+			.string()
+			.max(20, "lastName can't be more than 20 characters")
+			.optional(),
+	},
+	{ message: "name is required" }
+);
 
-export default createStudentValidationSchema;
+// Define the Zod schema for IGuardian
+const updateGuardianSchema = z.object({
+	fatherName: z.string().optional(),
+	fatherOccupation: z.string().optional(),
+	fatherContactNo: z.string().optional(),
+	motherName: z.string().optional(),
+	motherOccupation: z.string().optional(),
+	motherContactNo: z.string().optional(),
+});
+
+// Define the Zod schema for ILocalGuardian
+const updateLocalGuardianSchema = z.object({
+	name: z.string(),
+	occupation: z.string().optional(),
+	contactNo: z.string().optional(),
+	address: z.string().optional(),
+});
+
+// Define the Zod schema for IStudent
+const updateStudentValidationSchema = z.object({
+	body: z.object({
+		password: z
+			.string({
+				invalid_type_error: "password must be string",
+			})
+			.min(8, { message: "password must be at least 8 characters" })
+			.max(20, { message: "password can not be more than 20 characters" })
+			.optional(),
+		student: z.object({
+			name: updateUserNameSchema,
+			gender: z.enum(["male", "female", "other"]).optional(),
+			dateOfBirth: z.string().optional().optional(),
+			email: z
+				.string({ message: "email is required" })
+				.email({ message: "provide a valid email address" })
+				.optional(),
+			contactNo: z.string().optional(),
+			emergencyContactNo: z.string().optional(),
+			bloodGroup: z
+				.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"])
+				.optional(),
+			presentAddress: z.string().optional(),
+			permanentAddress: z.string().optional(),
+			admissionSemester: z.string().optional(),
+			academicDepartment: z.string().optional(),
+			profileImage: z.string().optional(),
+			guardian: updateGuardianSchema,
+			localGuardian: updateLocalGuardianSchema,
+		}),
+	}),
+});
+
+export const studentValidationSchema = {
+	createStudentValidationSchema,
+	updateStudentValidationSchema,
+};
