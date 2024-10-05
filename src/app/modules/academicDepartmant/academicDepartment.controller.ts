@@ -4,6 +4,7 @@ import sendResponse from "../../utils/sendResponse";
 import { academicDepartmentServices } from "./academicDepartment.services";
 
 const createAcademicDepartment = catchAsync(async (req, res) => {
+	console.log(req.body);
 	const result = await academicDepartmentServices.createAcademicDepartment(
 		req.body
 	);
