@@ -1,6 +1,7 @@
 import httpStatus from "http-status";
 import mongoose from "mongoose";
 import config from "../../config";
+import { AppError } from "../../error/appError";
 import { AcademicSemesterModel } from "../academicSemester/academicSemester.model";
 import { IStudent } from "../student/student.interface";
 import { Student } from "../student/student.model";

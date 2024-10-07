@@ -5,11 +5,11 @@ import sendResponse from "../../utils/sendResponse";
 import { studentServices } from "./student.service";
 
 const getAllStudents: RequestHandler = catchAsync(async (req, res) => {
-	const result = await studentServices.getAllStudentsFromDB();
+	const result = await studentServices.getAllStudentsFromDB(req.query);
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
 		Success: true,
-		message: "student created successfully",
+		message: "student get successfully",
 		data: result,
 	});
 });
@@ -26,6 +26,7 @@ const findStudentById: RequestHandler = catchAsync(async (req, res) => {
 });
 
 const updateStudentIntoDB: RequestHandler = catchAsync(async (req, res) => {
+	console.log(req.param);
 	const { studentId } = req.params;
 	const result = await studentServices.updateStudentIntoDB(
 		studentId,
