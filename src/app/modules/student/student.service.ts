@@ -44,16 +44,15 @@ const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
 	if (query.sort) {
 		sort = query.sort as string;
 	}
-	const sortQuery = await filterQuery.sort(sort);
-	// console.log(sortQuery);
-	// let limit = 1;
-	// if (query.limit) {
-	// 	limit = query.limit as number;
-	// }
-	// const limitQuery = await sortQuery.limit(limit);
-	// console.log(limit);
+	const sortQuery = filterQuery.sort(sort);
 
-	return sortQuery;
+	let limit = 1;
+	if (query.limit) {
+		limit = query.limit as number;
+	}
+	const limitQuery = await sortQuery.limit(limit);
+
+	return limitQuery;
 };
 const findStudentFromDB = async (id: string) => {
 	const result = await Student.findById(id);
