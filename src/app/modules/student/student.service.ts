@@ -26,8 +26,9 @@ const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
 		})),
 	});
 
-	const excludeFields = ["searchTerm", "sort", "limit"];
+	const excludeFields = ["searchTerm", "sort", "page", "limit", "fields"];
 	excludeFields.forEach((el) => delete queryObject[el]);
+	console.log({ query }, { queryObject });
 
 	const filterQuery = searchQuery
 		.find(queryObject)
@@ -46,14 +47,31 @@ const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
 	}
 	const sortQuery = filterQuery.sort(sort);
 
-	let limit = 1;
+	let page = 1;
+	let limit = 10;
+	let skip = 0;
+
 	if (query.limit) {
 		limit = query.limit as number;
 	}
-	const limitQuery = await sortQuery.limit(limit);
 
-	return limitQuery;
+	if (query?.page) {
+		page = query.page as number;
+		skip = page - 1 * limit;
+	}
+
+	const paginateQuery = sortQuery.skip(skip);
+
+	const limitQuery = paginateQuery.limit(limit);
+
+	let fields = "-__v";
+	if (query?.fields) {
+		fields = (query.fields as string).split(",").join(" ");
+	}
+	const fieldQuery = await limitQuery.select(fields);
+	return fieldQuery;
 };
+
 const findStudentFromDB = async (id: string) => {
 	const result = await Student.findById(id);
 	return result;
@@ -99,15 +117,6 @@ const deleteStudentFromDB = async (id: string) => {
 		throw new Error("failed to delete student");
 	}
 };
-// const deleteStudentFromDB = async (id: string) => {
-// 	const deletedStudent = await Student.findOneAndUpdate(
-// 		{ id },
-// 		{ isDeleted: true },
-// 		{ new: true }
-// 	);
-
-// 	return deletedStudent;
-// };
 
 export const studentServices = {
 	createStudentIntoDB,
