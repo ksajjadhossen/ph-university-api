@@ -1,20 +1,26 @@
-export interface User {
-	_id: string; // MongoDB ObjectId as a string
-	id?: string; // custom ID, optional
+export type TFacultyName = {
+	firstName: string;
+	middleName: string;
+	lastName: string;
+};
+
+export type TFaculty = {
+	_id: string;
+	id?: string;
 	designation: string;
-	name: string;
+	name: TFacultyName;
 	gender: string;
-	dateOfBirth: Date;
+	dateOfBirth: string;
 	email: string;
 	phoneNumber: string;
 	emergencyContactNumber: string;
 	presentAddress: string;
 	permanentAddress: string;
-	profileImage?: string; // URL or file path, optional
-	status: string; // e.g., Active, Inactive
+	profileImage?: string;
+	status: string;
 	academicDepartment: string;
 	academicFaculty: string;
 	isDeleted: boolean;
-	createdAt: Date;
-	updatedAt: Date;
-}
+	createdAt: string;
+	updatedAt: string;
+};
