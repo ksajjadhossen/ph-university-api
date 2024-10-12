@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import config from "../../config";
 import { AppError } from "../../error/appError";
 import { AcademicSemesterModel } from "../academicSemester/academicSemester.model";
+import { TFaculty } from "../faculty/faculty.interface";
 import { IStudent } from "../student/student.interface";
 import { Student } from "../student/student.model";
 import { IUser } from "./user.interface";
@@ -55,6 +56,11 @@ const createStudent = async (password: string, payload: IStudent) => {
 	}
 };
 
+const createFaculty = async (payload: TFaculty) => {
+	console.log(payload);
+};
+
 export const userServices = {
 	createStudent,
+	createFaculty,
 };
