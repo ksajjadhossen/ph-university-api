@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 import { TFaculty, TFacultyName } from "./faculty.interface";
 
 export const usernameSchema = new Schema<TFacultyName>({
@@ -36,3 +36,5 @@ export const facultySchema = new Schema<TFaculty>({
 	createdAt: { type: String, required: true },
 	updatedAt: { type: String, required: true },
 });
+
+export const Faculty = model<TFaculty>("Faculty", facultySchema);

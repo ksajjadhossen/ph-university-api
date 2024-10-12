@@ -10,5 +10,5 @@ router.post(
 	validateRequest(studentValidationSchema.createStudentValidationSchema),
 	userController.createStudent
 );
-
+router.post("/create-faculty");
 export const userRoute = router;
