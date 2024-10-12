@@ -56,8 +56,9 @@ const createStudent = async (password: string, payload: IStudent) => {
 	}
 };
 
-const createFaculty = async (payload: TFaculty) => {
-	console.log(payload);
+const createFaculty = async (password: string, payload: TFaculty) => {
+	const userData: Partial<TFaculty> = {};
+	console.log(password, payload);
 };
 
 export const userServices = {
