@@ -9,9 +9,9 @@ export type TFacultyName = {
 export type TFaculty = {
 	_id: string;
 	id?: string;
+	password: string;
 	user: Types.ObjectId;
 	role: string;
-	password: string;
 	designation: string;
 	name: TFacultyName;
 	gender: string;
