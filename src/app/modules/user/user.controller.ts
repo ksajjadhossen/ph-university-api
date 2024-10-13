@@ -19,9 +19,9 @@ const createStudent: RequestHandler = catchAsync(
 );
 
 const createFaculty: RequestHandler = catchAsync(async (req, res) => {
-	const { password, faculty } = req.body;
-
-	const result = await userServices.createFaculty(password, faculty);
+	const data = req.body;
+	const password = data.password;
+	const result = await userServices.createFaculty(password, data);
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
 		Success: true,

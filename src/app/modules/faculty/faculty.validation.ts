@@ -9,25 +9,25 @@ const facultyNameSchema = z.object({
 const createFacultySchema = z.object({
 	_id: z.string(),
 	password: z.string(),
-	id: z.string().optional(), // Optional field
-	user: z.string().optional(), // Assuming it's an ObjectId (as a string)
+	id: z.string().optional(),
+	user: z.string().optional(),
 	role: z.string(),
 	designation: z.string(),
-	name: facultyNameSchema, // Nested object for name validation
-	gender: z.enum(["Male", "Female", "Other"]), // Enum for gender
-	dateOfBirth: z.string(), // Date of birth as string
-	email: z.string().email(), // Validates email format
+	name: facultyNameSchema,
+	gender: z.enum(["Male", "Female", "Other"]),
+	dateOfBirth: z.string(),
+	email: z.string().email(),
 	contactNo: z.string(),
 	emergencyContactNumber: z.string(),
 	presentAddress: z.string(),
 	permanentAddress: z.string(),
-	profileImage: z.string().optional(), // Optional URL validation
-	academicDepartment: z.string().optional(), // Optional ObjectId (string)
+	profileImage: z.string().optional(),
+	academicDepartment: z.string().optional(),
 	status: z.string(),
-	academicFaculty: z.string(), // ObjectId as a string
-	isDeleted: z.boolean().default(false), // Boolean with default value
-	createdAt: z.string(), // Creation date as string
-	updatedAt: z.string(), // Update date as string
+	academicFaculty: z.string(),
+	isDeleted: z.boolean().default(false),
+	createdAt: z.string(),
+	updatedAt: z.string(),
 });
 
 export const facultyValidationSchema = {

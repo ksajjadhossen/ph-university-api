@@ -60,6 +60,7 @@ const createFaculty = async (password: string, payload: TFaculty) => {
 	const userData: Partial<TFaculty> = {};
 
 	userData.password = password || (config.default_password as string);
+	console.log(payload);
 };
 
 export const userServices = {
