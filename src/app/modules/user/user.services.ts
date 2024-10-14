@@ -61,6 +61,13 @@ const createFaculty = async (password: string, payload: TFaculty) => {
 
 	userData.password = password || (config.default_password as string);
 	userData.role = "faculty";
+
+	const academicDepartment = await AcademicSemesterModel.findById(
+		payload.academicDepartment
+	);
+	if (!academicDepartment) {
+		throw new Error("Academic Department not found");
+	}
 };
 
 export const userServices = {
