@@ -1,5 +1,6 @@
 import express from "express";
 import validateRequest from "../../middlewares/validateRequest";
+import { facultyValidationSchema } from "../faculty/faculty.validation";
 import { studentValidationSchema } from "../student/student.validation";
 import { userController } from "./user.controller";
 
@@ -12,7 +13,7 @@ router.post(
 );
 router.post(
 	"/create-faculty",
-	// validateRequest(facultyValidationSchema.createFacultySchema),
+	validateRequest(facultyValidationSchema.createFacultySchema),
 	userController.createFaculty
 );
 export const userRoute = router;
