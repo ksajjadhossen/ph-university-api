@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 import config from "../../config";
 import { AppError } from "../../error/appError";
 import { AcademicSemesterModel } from "../academicSemester/academicSemester.model";
-import { TFaculty, TFacultyUser } from "../faculty/faculty.interface";
+import { TFaculty } from "../faculty/faculty.interface";
+import { Faculty } from "../faculty/faculty.model";
 import { IStudent } from "../student/student.interface";
 import { Student } from "../student/student.model";
 import { IUser } from "./user.interface";
@@ -56,18 +57,13 @@ const createStudent = async (password: string, payload: IStudent) => {
 	}
 };
 
-const createFaculty = async (password: string, payload: TFaculty) => {
-	const userData: Partial<TFacultyUser> = {};
+const createFaculty = async (payload: TFaculty) => {
+	const facultyData: Partial<TFaculty> = {};
+	facultyData.id = "2323232";
+	facultyData.role = "faculty";
 
-	userData.password = password || (config.default_password as string);
-	userData.role = "faculty";
-
-	const academicDepartment = await AcademicSemesterModel.findById(
-		payload.academicDepartment
-	);
-	if (!academicDepartment) {
-		throw new Error("Academic Department not found");
-	}
+	const result = await Faculty.create(payload);
+	return result;
 };
 
 export const userServices = {

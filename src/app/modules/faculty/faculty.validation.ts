@@ -10,6 +10,7 @@ const createFacultySchema = z.object({
 	body: z.object({
 		password: z.string().optional(),
 		faculty: z.object({
+			id: z.string({ message: "id is string" }).optional(),
 			designation: z.string({ message: "designation must be string" }),
 			name: facultyNameSchema,
 			gender: z.enum(["Male", "Female", "Other"]),

@@ -1,7 +1,7 @@
 import { model, Schema } from "mongoose";
 import { TFaculty, TFacultyName } from "./faculty.interface";
 
-export const FacultyNameSchema = new Schema<TFacultyName>({
+const FacultyNameSchema = new Schema<TFacultyName>({
 	firstName: {
 		type: String,
 		required: true,
@@ -17,10 +17,9 @@ export const FacultyNameSchema = new Schema<TFacultyName>({
 });
 
 export const facultySchema = new Schema<TFaculty>({
-	_id: { type: String, required: true },
 	id: { type: String },
 	user: { type: Schema.Types.ObjectId, ref: "User" },
-	role: { type: String, required: true },
+	role: { type: String, default: "faculty" },
 	designation: { type: String, required: true },
 	name: { type: FacultyNameSchema, required: true },
 	gender: { type: String, required: true },
@@ -38,7 +37,7 @@ export const facultySchema = new Schema<TFaculty>({
 	status: { type: String, required: true },
 	academicFaculty: {
 		type: Schema.Types.ObjectId,
-		ref: "Faculty",
+		ref: "AcademicFaculty",
 		required: true,
 	},
 	isDeleted: { type: Boolean, required: true, default: false },
