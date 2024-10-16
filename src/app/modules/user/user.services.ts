@@ -61,8 +61,11 @@ const createStudent = async (password: string, payload: IStudent) => {
 
 // create faculty
 
-const createFaculty = async (payload: TFaculty) => {
+const createFaculty = async (password: string, payload: TFaculty) => {
 	const userData: Partial<IUser> = {};
+	userData.id = "0001";
+
+	userData.password = password || (config.default_password as string);
 
 	const academicFaculty = await AcademicFaculty.findById(
 		payload.academicFaculty
@@ -73,16 +76,15 @@ const createFaculty = async (payload: TFaculty) => {
 	const academicDepartment = await AcademicDepartment.findById(
 		payload.academicDepartment
 	);
-
 	if (!academicDepartment) {
 		throw new AppError(httpStatus.BAD_REQUEST, "Academic Department not found");
 	}
-	console.log(userData);
 
 	const session = await mongoose.startSession();
 	try {
 		session.startTransaction();
 		payload.id = userData.id;
+		console.log(userData);
 		const facultyUser = await User.create([userData], { session });
 		if (!facultyUser) {
 			throw new AppError(httpStatus.BAD_REQUEST, "Faculty User not created");
