@@ -18,11 +18,11 @@ const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const student_service_1 = require("./student.service");
 const getAllStudents = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield student_service_1.studentServices.getAllStudentsFromDB();
+    const result = yield student_service_1.studentServices.getAllStudentsFromDB(req.query);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         Success: true,
-        message: "student created successfully",
+        message: "student get successfully",
         data: result,
     });
 }));
@@ -37,6 +37,7 @@ const findStudentById = (0, catchAsync_1.default)((req, res) => __awaiter(void 0
     });
 }));
 const updateStudentIntoDB = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.param);
     const { studentId } = req.params;
     const result = yield student_service_1.studentServices.updateStudentIntoDB(studentId, req.body.student);
     (0, sendResponse_1.default)(res, {

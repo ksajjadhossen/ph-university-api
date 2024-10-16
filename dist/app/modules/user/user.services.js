@@ -16,7 +16,11 @@ exports.userServices = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const config_1 = __importDefault(require("../../config"));
+const appError_1 = require("../../error/appError");
+const academicDepartment_model_1 = require("../academicDepartmant/academicDepartment.model");
+const academicFaculty_model_1 = require("../academicFaculty/academicFaculty.model");
 const academicSemester_model_1 = require("../academicSemester/academicSemester.model");
+const faculty_model_1 = require("../faculty/faculty.model");
 const student_model_1 = require("../student/student.model");
 const user_model_1 = require("./user.model");
 const user_utils_1 = require("./user.utils");
@@ -36,12 +40,12 @@ const createStudent = (password, payload) => __awaiter(void 0, void 0, void 0, f
         payload.id = userData.id;
         const newUser = yield user_model_1.User.create([userData], { session });
         if (!newUser) {
-            throw new AppError(http_status_1.default.BAD_REQUEST, "Transaction failed to create User");
+            throw new appError_1.AppError(http_status_1.default.BAD_REQUEST, "Transaction failed to create User");
         }
         payload.user = newUser[0]._id;
-        const newStudent = yield student_model_1.Student.create([payload], { session });
+        const newStudent = yield student_model_1.Student.create([payload]);
         if (!newStudent) {
-            throw new AppError(http_status_1.default.BAD_REQUEST, "Transaction failed to create Student");
+            throw new appError_1.AppError(http_status_1.default.BAD_REQUEST, "Transaction failed to create Student");
         }
         yield session.commitTransaction();
         yield session.endSession();
@@ -52,6 +56,43 @@ const createStudent = (password, payload) => __awaiter(void 0, void 0, void 0, f
         yield session.endSession();
     }
 });
+// create faculty
+const createFaculty = (password, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const userData = {};
+    userData.id = "0001";
+    userData.password = password || config_1.default.default_password;
+    const academicFaculty = yield academicFaculty_model_1.AcademicFaculty.findById(payload.academicFaculty);
+    if (!academicFaculty) {
+        throw new appError_1.AppError(http_status_1.default.BAD_REQUEST, "Academic Faculty not found.");
+    }
+    const academicDepartment = yield academicDepartment_model_1.AcademicDepartment.findById(payload.academicDepartment);
+    if (!academicDepartment) {
+        throw new appError_1.AppError(http_status_1.default.BAD_REQUEST, "Academic Department not found");
+    }
+    const session = yield mongoose_1.default.startSession();
+    try {
+        session.startTransaction();
+        payload.id = userData.id;
+        console.log(userData);
+        const facultyUser = yield user_model_1.User.create([userData], { session });
+        if (!facultyUser) {
+            throw new appError_1.AppError(http_status_1.default.BAD_REQUEST, "Faculty User not created");
+        }
+        const newFaculty = yield faculty_model_1.Faculty.create([payload], { session });
+        if (!newFaculty) {
+            throw new appError_1.AppError(http_status_1.default.BAD_GATEWAY, "Transaction failed to the create Faculty");
+        }
+        session.commitTransaction();
+        session.endSession();
+        return newFaculty[0];
+    }
+    catch (error) {
+        session.abortTransaction();
+        session.endSession();
+        throw error;
+    }
+});
 exports.userServices = {
     createStudent,
+    createFaculty,
 };

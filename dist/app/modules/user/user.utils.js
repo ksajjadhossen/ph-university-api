@@ -19,7 +19,6 @@ const findLastStudentId = () => __awaiter(void 0, void 0, void 0, function* () {
         createdAt: -1,
     })
         .lean();
-    console.log(lastStudent);
     return (lastStudent === null || lastStudent === void 0 ? void 0 : lastStudent.id) ? lastStudent.id : undefined;
 });
 const generateStudentId = (payload) => __awaiter(void 0, void 0, void 0, function* () {

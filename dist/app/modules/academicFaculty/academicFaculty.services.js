@@ -15,7 +15,7 @@ const createAcademicFaculty = (payload) => __awaiter(void 0, void 0, void 0, fun
     const result = yield academicFaculty_model_1.AcademicFaculty.create(payload);
     return result;
 });
-const getAllAcademicFaculty = (p0) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllAcademicFaculty = () => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield academicFaculty_model_1.AcademicFaculty.find();
     return result;
 });

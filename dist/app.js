@@ -10,7 +10,6 @@ const routes_1 = __importDefault(require("./app/routes/routes"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.get("/", (req, res) => {
-    console.log(req.body);
     res.send("Hello World!");
 });
 app.use("/api/v1/", routes_1.default);

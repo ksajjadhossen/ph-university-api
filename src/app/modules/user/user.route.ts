@@ -16,4 +16,5 @@ router.post(
 	validateRequest(facultyValidationSchema.createFacultySchema),
 	userController.createFaculty
 );
+
 export const userRoute = router;

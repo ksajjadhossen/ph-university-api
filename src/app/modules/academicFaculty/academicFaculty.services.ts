@@ -6,7 +6,7 @@ const createAcademicFaculty = async (payload: IAcademicFaculty) => {
 	return result;
 };
 
-const getAllAcademicFaculty = async (p0?: string) => {
+const getAllAcademicFaculty = async () => {
 	const result = await AcademicFaculty.find();
 	return result;
 };
