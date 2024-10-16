@@ -2,7 +2,6 @@ import { TAcademicDepartment } from "./academicDepartment.interface";
 import { AcademicDepartment } from "./academicDepartment.model";
 
 const createAcademicDepartment = async (payload: TAcademicDepartment) => {
-	console.log(payload);
 	const result = await AcademicDepartment.create(payload);
 	return result;
 };

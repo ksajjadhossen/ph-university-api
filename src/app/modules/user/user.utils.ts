@@ -9,7 +9,7 @@ const findLastStudentId = async () => {
 			createdAt: -1,
 		})
 		.lean();
-	console.log(lastStudent);
+
 	return lastStudent?.id ? lastStudent.id : undefined;
 };
 export const generateStudentId = async (payload: TAcademicSemester) => {
