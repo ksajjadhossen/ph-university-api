@@ -26,6 +26,28 @@ const getAllFaculties = (0, catchAsync_1.default)((req, res) => __awaiter(void 0
         data: result,
     });
 }));
+const getSingleFacultyById = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { facultyId } = req.params;
+    const result = yield faculty_services_1.facultyServices.getSingleFacultyById(facultyId);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        Success: true,
+        message: "faculty found successfully",
+        data: result,
+    });
+}));
+const deleteFacultyById = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { facultyId } = req.params;
+    const result = yield faculty_services_1.facultyServices.deleteFAcultyById(facultyId);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        Success: true,
+        message: "Faculty deleted successfully",
+        data: result,
+    });
+}));
 exports.facultyController = {
     getAllFaculties,
+    getSingleFacultyById,
+    deleteFacultyById,
 };

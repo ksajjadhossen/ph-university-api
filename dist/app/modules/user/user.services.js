@@ -59,7 +59,7 @@ const createStudent = (password, payload) => __awaiter(void 0, void 0, void 0, f
 // create faculty
 const createFaculty = (password, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const userData = {};
-    userData.id = "0001";
+    userData.id = "0003";
     userData.password = password || config_1.default.default_password;
     const academicFaculty = yield academicFaculty_model_1.AcademicFaculty.findById(payload.academicFaculty);
     if (!academicFaculty) {
@@ -73,7 +73,6 @@ const createFaculty = (password, payload) => __awaiter(void 0, void 0, void 0, f
     try {
         session.startTransaction();
         payload.id = userData.id;
-        console.log(userData);
         const facultyUser = yield user_model_1.User.create([userData], { session });
         if (!facultyUser) {
             throw new appError_1.AppError(http_status_1.default.BAD_REQUEST, "Faculty User not created");

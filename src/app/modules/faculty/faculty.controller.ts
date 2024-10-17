@@ -25,9 +25,17 @@ const getSingleFacultyById = catchAsync(async (req, res) => {
 });
 const deleteFacultyById = catchAsync(async (req, res) => {
 	const { facultyId } = req.params;
+	const result = await facultyServices.deleteFAcultyById(facultyId);
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		Success: true,
+		message: "Faculty deleted successfully",
+		data: result,
+	});
 });
 
 export const facultyController = {
 	getAllFaculties,
 	getSingleFacultyById,
+	deleteFacultyById,
 };
