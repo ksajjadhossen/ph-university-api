@@ -63,7 +63,7 @@ const createStudent = async (password: string, payload: IStudent) => {
 
 const createFaculty = async (password: string, payload: TFaculty) => {
 	const userData: Partial<IUser> = {};
-	userData.id = "0001";
+	userData.id = "0003";
 
 	userData.password = password || (config.default_password as string);
 
@@ -84,7 +84,7 @@ const createFaculty = async (password: string, payload: TFaculty) => {
 	try {
 		session.startTransaction();
 		payload.id = userData.id;
-		console.log(userData);
+
 		const facultyUser = await User.create([userData], { session });
 		if (!facultyUser) {
 			throw new AppError(httpStatus.BAD_REQUEST, "Faculty User not created");
