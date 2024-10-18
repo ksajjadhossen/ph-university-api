@@ -46,8 +46,20 @@ const deleteFacultyById = (0, catchAsync_1.default)((req, res) => __awaiter(void
         data: result,
     });
 }));
+const updateFacultyById = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { facultyId } = req.params;
+    const { faculty } = req.body;
+    const result = yield faculty_services_1.facultyServices.updateFacultyById(facultyId, faculty);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        Success: true,
+        message: "Faculty Updated successfully",
+        data: result,
+    });
+}));
 exports.facultyController = {
     getAllFaculties,
     getSingleFacultyById,
     deleteFacultyById,
+    updateFacultyById,
 };

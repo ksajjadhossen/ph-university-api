@@ -37,7 +37,6 @@ const findStudentById = (0, catchAsync_1.default)((req, res) => __awaiter(void 0
     });
 }));
 const updateStudentIntoDB = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.param);
     const { studentId } = req.params;
     const result = yield student_service_1.studentServices.updateStudentIntoDB(studentId, req.body.student);
     (0, sendResponse_1.default)(res, {
