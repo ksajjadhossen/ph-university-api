@@ -1,3 +1,5 @@
+import makeFlattenedObject from "../../utils/makeFlattenObject";
+import { TFaculty } from "./faculty.interface";
 import { Faculty } from "./faculty.model";
 
 const getAllFaculties = async () => {
@@ -19,8 +21,18 @@ const deleteFAcultyById = async (id: string) => {
 	return result;
 };
 
+const updateFacultyById = async (id: string, payload: Partial<TFaculty>) => {
+	const updatedFlattenData = makeFlattenedObject(payload);
+	const result = Faculty.findOneAndUpdate({ id }, updatedFlattenData, {
+		new: true,
+		runValidators: true,
+	});
+	return result;
+};
+
 export const facultyServices = {
 	getAllFaculties,
 	getSingleFacultyById,
 	deleteFAcultyById,
+	updateFacultyById,
 };

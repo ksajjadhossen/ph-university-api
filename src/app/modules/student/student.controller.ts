@@ -26,7 +26,6 @@ const findStudentById: RequestHandler = catchAsync(async (req, res) => {
 });
 
 const updateStudentIntoDB: RequestHandler = catchAsync(async (req, res) => {
-	console.log(req.param);
 	const { studentId } = req.params;
 	const result = await studentServices.updateStudentIntoDB(
 		studentId,
