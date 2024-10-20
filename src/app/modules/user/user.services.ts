@@ -84,7 +84,7 @@ const createFaculty = async (password: string, payload: TFaculty) => {
 	const session = await mongoose.startSession();
 	try {
 		session.startTransaction();
-		// userData.id = "F-0005";
+		// userData.id = "F-0006";
 		userData.id = await generateFacultyId();
 
 		const facultyUser = await User.create([userData], { session });
@@ -99,13 +99,13 @@ const createFaculty = async (password: string, payload: TFaculty) => {
 				"Transaction failed to the create Faculty"
 			);
 		}
-		console.log(facultyUser);
-		session.commitTransaction();
-		session.endSession();
+
+		await session.commitTransaction();
+		await session.endSession();
 		return newFaculty[0];
 	} catch (error) {
-		session.abortTransaction();
-		session.endSession();
+		await session.abortTransaction();
+		await session.endSession();
 		throw error;
 	}
 };

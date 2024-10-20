@@ -50,13 +50,14 @@ export const generateFacultyId = async () => {
 	const firstLetter = "F";
 	const lastFacultyId = await findLastFacultyId();
 	const lastFacultyNumbers = lastFacultyId?.substring(2, 6);
-	let facultyId = (Number(lastFacultyNumbers) + 1).toString().padStart(4, "0");
-	facultyId = `${firstLetter}-${facultyId}`;
-	console.log(facultyId);
+	let incrementId = (Number(lastFacultyNumbers) + 1)
+		.toString()
+		.padStart(4, "0");
+	incrementId = `${firstLetter}-${incrementId}`;
 	if (!lastFacultyId) {
 		const firstId = "0001";
 		const facultyId = `${firstLetter}-${firstId}`;
 		return facultyId;
 	}
-	return facultyId;
+	return incrementId;
 };

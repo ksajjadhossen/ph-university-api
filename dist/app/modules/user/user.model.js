@@ -33,6 +33,7 @@ const userSchema = new mongoose_1.Schema({
     role: {
         type: String,
         enum: ["student", "faculty", "admin"],
+        required: true,
     },
     isDeleted: { type: Boolean, default: false },
 }, {

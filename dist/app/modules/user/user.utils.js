@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateStudentId = void 0;
+exports.generateFacultyId = exports.generateStudentId = void 0;
 const user_model_1 = require("./user.model");
 const findLastStudentId = () => __awaiter(void 0, void 0, void 0, function* () {
     const lastStudent = yield user_model_1.User.findOne({
@@ -38,3 +38,27 @@ const generateStudentId = (payload) => __awaiter(void 0, void 0, void 0, functio
     return incrementId;
 });
 exports.generateStudentId = generateStudentId;
+const findLastFacultyId = () => __awaiter(void 0, void 0, void 0, function* () {
+    const lastFaculty = yield user_model_1.User.findOne({
+        role: "faculty",
+    })
+        .sort({ createdAt: -1 })
+        .lean();
+    return lastFaculty ? lastFaculty.id : undefined;
+});
+const generateFacultyId = () => __awaiter(void 0, void 0, void 0, function* () {
+    const firstLetter = "F";
+    const lastFacultyId = yield findLastFacultyId();
+    const lastFacultyNumbers = lastFacultyId === null || lastFacultyId === void 0 ? void 0 : lastFacultyId.substring(2, 6);
+    let incrementId = (Number(lastFacultyNumbers) + 1)
+        .toString()
+        .padStart(4, "0");
+    incrementId = `${firstLetter}-${incrementId}`;
+    if (!lastFacultyId) {
+        const firstId = "0001";
+        const facultyId = `${firstLetter}-${firstId}`;
+        return facultyId;
+    }
+    return incrementId;
+});
+exports.generateFacultyId = generateFacultyId;
