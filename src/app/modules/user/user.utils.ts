@@ -36,3 +36,27 @@ export const generateStudentId = async (payload: TAcademicSemester) => {
 
 	return incrementId;
 };
+
+const findLastFacultyId = async () => {
+	const lastFaculty = await User.findOne({
+		role: "faculty",
+	})
+		.sort({ createdAt: -1 })
+		.lean();
+
+	return lastFaculty ? lastFaculty.id : undefined;
+};
+export const generateFacultyId = async () => {
+	const firstLetter = "F";
+	const lastFacultyId = await findLastFacultyId();
+	const lastFacultyNumbers = lastFacultyId?.substring(2, 6);
+	let facultyId = (Number(lastFacultyNumbers) + 1).toString().padStart(4, "0");
+	facultyId = `${firstLetter}-${facultyId}`;
+	console.log(facultyId);
+	if (!lastFacultyId) {
+		const firstId = "0001";
+		const facultyId = `${firstLetter}-${firstId}`;
+		return facultyId;
+	}
+	return facultyId;
+};

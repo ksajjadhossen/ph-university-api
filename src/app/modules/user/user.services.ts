@@ -11,7 +11,7 @@ import { Student } from "../student/student.model";
 import { TFaculty } from "./../faculty/faculty.interface";
 import { IUser } from "./user.interface";
 import { User } from "./user.model";
-import { generateStudentId } from "./user.utils";
+import { generateFacultyId, generateStudentId } from "./user.utils";
 
 // create student into db
 const createStudent = async (password: string, payload: IStudent) => {
@@ -63,13 +63,14 @@ const createStudent = async (password: string, payload: IStudent) => {
 
 const createFaculty = async (password: string, payload: TFaculty) => {
 	const userData: Partial<IUser> = {};
-	userData.id = "0003";
+	userData.role = "faculty";
 
 	userData.password = password || (config.default_password as string);
 
 	const academicFaculty = await AcademicFaculty.findById(
 		payload.academicFaculty
 	);
+
 	if (!academicFaculty) {
 		throw new AppError(httpStatus.BAD_REQUEST, "Academic Faculty not found.");
 	}
@@ -83,7 +84,8 @@ const createFaculty = async (password: string, payload: TFaculty) => {
 	const session = await mongoose.startSession();
 	try {
 		session.startTransaction();
-		payload.id = userData.id;
+		// userData.id = "F-0005";
+		userData.id = await generateFacultyId();
 
 		const facultyUser = await User.create([userData], { session });
 		if (!facultyUser) {
@@ -97,6 +99,7 @@ const createFaculty = async (password: string, payload: TFaculty) => {
 				"Transaction failed to the create Faculty"
 			);
 		}
+		console.log(facultyUser);
 		session.commitTransaction();
 		session.endSession();
 		return newFaculty[0];

@@ -22,6 +22,7 @@ const userSchema = new Schema<IUser>(
 		role: {
 			type: String,
 			enum: ["student", "faculty", "admin"],
+			required: true,
 		},
 		isDeleted: { type: Boolean, default: false },
 	},
