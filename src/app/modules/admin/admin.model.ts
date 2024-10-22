@@ -8,40 +8,52 @@ const adminNameSchema = new Schema<TAdminName>({
 });
 
 const adminSchema = new Schema<TAdmin>({
-	id: { type: String, required: [true, "id is required"] },
-	user: Schema.Types.ObjectId,
-	needsPasswordChange: {
-		type: Boolean,
-		default: true,
+	password: { type: String },
+	admin: {
+		id: { type: String, required: [true, "id is required"] },
+		user: Schema.Types.ObjectId,
+		needsPasswordChange: {
+			type: Boolean,
+			default: true,
+		},
+		designation: {
+			type: Boolean,
+			required: [true, "designation is required"],
+		},
+		role: { type: String, required: [true, "role is required"] },
+		name: adminNameSchema,
+		gender: {
+			type: String,
+			enum: ["male", "female", "others"],
+			required: [true, "gender is required"],
+		},
+		dateOfBirth: {
+			type: String,
+			required: [true, "Date of birth is required"],
+		},
+		email: { type: String, required: [true, "Email is required"] },
+		phoneNumber: {
+			type: String,
+			required: [true, "Phone number is required"],
+		},
+		emergencyPhoneNumber: {
+			type: String,
+			required: [true, "Emergency phone number is required"],
+		},
+		presentAddress: {
+			type: String,
+			required: [true, "Present Address is required"],
+		},
+		permanentAddress: {
+			type: String,
+			required: [true, "Permanent Address is required"],
+		},
+		profileImage: { type: String },
+		status: { type: String, required: [true, "status is required"] },
+		manageDepartment: Schema.ObjectId,
+		academicDepartment: Schema.ObjectId,
+		isDeleted: { type: Boolean, default: false },
 	},
-	designation: { type: Boolean, required: [true, "designation is required"] },
-	role: { type: String, required: [true, "role is required"] },
-	name: adminNameSchema,
-	gender: {
-		type: String,
-		enum: ["male", "female", "others"],
-		required: [true, "gender is required"],
-	},
-	dateOfBirth: { type: String, required: [true, "Date of birth is required"] },
-	email: { type: String, required: [true, "Email is required"] },
-	phoneNumber: { type: String, required: [true, "Phone number is required"] },
-	emergencyPhoneNumber: {
-		type: String,
-		required: [true, "Emergency phone number is required"],
-	},
-	presentAddress: {
-		type: String,
-		required: [true, "Present Address is required"],
-	},
-	permanentAddress: {
-		type: String,
-		required: [true, "Permanent Address is required"],
-	},
-	profileImage: { type: String },
-	status: { type: String, required: [true, "status is required"] },
-	manageDepartment: Schema.ObjectId,
-	academicDepartment: Schema.ObjectId,
-	isDeleted: { type: Boolean, required: [true, " Is deleted is required"] },
 });
 
 export const Admin = model<TAdmin>("user", adminSchema);
