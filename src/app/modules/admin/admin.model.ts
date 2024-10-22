@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 import { TAdmin, TAdminName } from "./admin.interface";
 
 const adminNameSchema = new Schema<TAdminName>({
@@ -43,3 +43,5 @@ const adminSchema = new Schema<TAdmin>({
 	academicDepartment: Schema.ObjectId,
 	isDeleted: { type: Boolean, required: [true, " Is deleted is required"] },
 });
+
+export const Admin = model<TAdmin>("user", adminSchema);
