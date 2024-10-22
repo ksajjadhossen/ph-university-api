@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 
-type TAdminName = {
+export type TAdminName = {
 	firstName: string;
 	middleName: string;
 	lastName: string;
@@ -11,8 +11,7 @@ export type TAdmin = {
 	user: Types.ObjectId;
 	needsPasswordChange: boolean;
 	designation: boolean;
-
-	roll: string;
+	role: string;
 	name: TAdminName;
 	gender: string;
 	dateOfBirth: string;
