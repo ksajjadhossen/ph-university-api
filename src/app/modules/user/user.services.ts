@@ -13,7 +13,11 @@ import { Student } from "../student/student.model";
 import { TFaculty } from "./../faculty/faculty.interface";
 import { IUser } from "./user.interface";
 import { User } from "./user.model";
-import { generateFacultyId, generateStudentId } from "./user.utils";
+import {
+	generateAdminId,
+	generateFacultyId,
+	generateStudentId,
+} from "./user.utils";
 
 // create student into db
 const createStudent = async (password: string, payload: IStudent) => {
@@ -134,7 +138,8 @@ const createAdmin = async (password: string, payload: TAdmin) => {
 	const session = await mongoose.startSession();
 	try {
 		await session.startTransaction();
-		userData.id = "A-0005";
+		// userData.id = "A-0005";
+		userData.id = await generateAdminId();
 		payload.id = userData.id;
 		const adminUser = await User.create([userData], { session });
 		if (!adminUser) {

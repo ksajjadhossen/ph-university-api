@@ -1,6 +1,7 @@
 import { TAcademicSemester } from "../academicSemester/academicSemester.interface";
 import { User } from "./user.model";
 
+// generate Student id
 const findLastStudentId = async () => {
 	const lastStudent = await User.findOne({
 		role: "student",
@@ -37,6 +38,8 @@ export const generateStudentId = async (payload: TAcademicSemester) => {
 	return incrementId;
 };
 
+// Generate faculty id
+
 const findLastFacultyId = async () => {
 	const lastFaculty = await User.findOne({
 		role: "faculty",
@@ -60,4 +63,34 @@ export const generateFacultyId = async () => {
 		return facultyId;
 	}
 	return incrementId;
+};
+
+//generate Admin id
+const findLastAdminId = async () => {
+	const lastAdmin = await User.findOne({
+		role: "admin",
+	})
+		.sort({ createdAt: -1 })
+		.lean();
+
+	return lastAdmin ? lastAdmin.id : undefined;
+};
+
+export const generateAdminId = async () => {
+	const firstLetter = "A";
+	const lastAdminId = await findLastAdminId();
+	const lastAdminNumbers = lastAdminId?.substring(2, 6);
+	const incrementNumber = (Number(lastAdminNumbers) + 1)
+		.toString()
+		.padStart(4, "0");
+
+	const incrementAdminId = `${firstLetter}-${incrementNumber}`;
+
+	if (!lastAdminId) {
+		const firstId = "0001";
+		const newAdminId = `${firstLetter}-${firstId}`;
+		return newAdminId;
+	}
+
+	return incrementAdminId;
 };
