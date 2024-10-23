@@ -43,6 +43,46 @@ const createAdminValidationSchema = z.object({
 	}),
 });
 
+const updateAdminNameSchema = z.object({
+	firstName: z.string().optional(),
+	middleName: z.string().optional().optional(),
+	lastName: z.string().optional(),
+});
+const updateAdminValidationSchema = z.object({
+	body: z.object({
+		password: z.string().optional(),
+		admin: object({
+			id: z.string().optional(),
+			user: z.string().optional(), // Assuming the user is an ObjectId stored as a string
+			needsPasswordChange: z.boolean().default(true).optional(),
+			designation: z
+				.boolean({
+					required_error: "designation is required",
+				})
+				.optional(),
+			role: z.string().optional(),
+			name: updateAdminNameSchema,
+			gender: z
+				.enum(["male", "female", "others"], {
+					required_error: "gender is required",
+				})
+				.optional(),
+			dateOfBirth: z.string().optional(),
+			email: z.string().email("Invalid email format").optional(),
+			phoneNumber: z.string().optional(),
+			emergencyPhoneNumber: z.string().optional(),
+			presentAddress: z.string().optional(),
+			permanentAddress: z.string().optional(),
+			profileImage: z.string().optional().optional(),
+			status: z.string().optional(),
+			academicFaculty: z.string().optional().optional(), // Assuming ObjectId stored as a string
+			academicDepartment: z.string().optional().optional(), // Assuming ObjectId stored as a string
+			isDeleted: z.boolean().default(false).optional(),
+		}),
+	}),
+});
+
 export const adminValidationSchema = {
 	createAdminValidationSchema,
+	updateAdminValidationSchema,
 };
