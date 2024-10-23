@@ -4,8 +4,8 @@ import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { adminServices } from "./admin.service";
 
-const getAllAdmins: RequestHandler = catchAsync(async (req, res) => {
-	const result = await adminServices.getAllAdmins();
+const getAllAdminsFromDb: RequestHandler = catchAsync(async (req, res) => {
+	const result = await adminServices.getAllAdminsFromDb();
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
 		Success: true,
@@ -13,10 +13,10 @@ const getAllAdmins: RequestHandler = catchAsync(async (req, res) => {
 		data: result,
 	});
 });
-const updateAdmin: RequestHandler = catchAsync(async (req, res) => {
+const updateAdminFromDb: RequestHandler = catchAsync(async (req, res) => {
 	const { admin } = req.body;
 	const { adminId } = req.params;
-	const result = await adminServices.updateAdmin(adminId, admin);
+	const result = await adminServices.updateAdminFromDb(adminId, admin);
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
 		Success: true,
@@ -24,8 +24,19 @@ const updateAdmin: RequestHandler = catchAsync(async (req, res) => {
 		data: result,
 	});
 });
+const deleteAdminFromDb: RequestHandler = catchAsync(async (req, res) => {
+	const { adminId } = req.params;
+	const result = await adminServices.deleteAdminFromDb(adminId);
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		Success: true,
+		message: "Admin deleted successfully",
+		data: result,
+	});
+});
 
 export const adminController = {
-	getAllAdmins,
-	updateAdmin,
+	getAllAdminsFromDb,
+	updateAdminFromDb,
+	deleteAdminFromDb,
 };
