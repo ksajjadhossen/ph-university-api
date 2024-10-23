@@ -13,7 +13,19 @@ const getAllAdmins: RequestHandler = catchAsync(async (req, res) => {
 		data: result,
 	});
 });
+const updateAdmin: RequestHandler = catchAsync(async (req, res) => {
+	const { admin } = req.body;
+	const { adminId } = req.params;
+	const result = await adminServices.updateAdmin(adminId, admin);
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		Success: true,
+		message: "Admins Updated successfully",
+		data: result,
+	});
+});
 
 export const adminController = {
 	getAllAdmins,
+	updateAdmin,
 };
