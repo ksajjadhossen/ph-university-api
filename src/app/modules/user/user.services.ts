@@ -6,6 +6,7 @@ import { AcademicDepartment } from "../academicDepartmant/academicDepartment.mod
 import { AcademicFaculty } from "../academicFaculty/academicFaculty.model";
 import { AcademicSemesterModel } from "../academicSemester/academicSemester.model";
 import { TAdmin } from "../admin/admin.interface";
+import { Admin } from "../admin/admin.model";
 import { Faculty } from "../faculty/faculty.model";
 import { IStudent } from "../student/student.interface";
 import { Student } from "../student/student.model";
@@ -87,6 +88,7 @@ const createFaculty = async (password: string, payload: TFaculty) => {
 		session.startTransaction();
 		// userData.id = "F-0006";
 		userData.id = await generateFacultyId();
+		payload.id = userData.id;
 
 		const facultyUser = await User.create([userData], { session });
 		if (!facultyUser) {
@@ -113,6 +115,7 @@ const createFaculty = async (password: string, payload: TFaculty) => {
 
 const createAdmin = async (password: string, payload: TAdmin) => {
 	const userData: Partial<IUser> = {};
+	userData.role = "admin";
 	userData.password = password || (config.default_password as string);
 
 	const academicDepartment = await AcademicDepartment.findById(
@@ -121,7 +124,40 @@ const createAdmin = async (password: string, payload: TAdmin) => {
 	if (!academicDepartment) {
 		throw new Error("academic Department not found");
 	}
-	const;
+	const academicFaculty = await AcademicFaculty.findById(
+		payload.academicFaculty
+	);
+	if (!academicFaculty) {
+		throw new Error("Academic facultyNot found");
+	}
+
+	const session = await mongoose.startSession();
+	try {
+		await session.startTransaction();
+		userData.id = "A-0005";
+		payload.id = userData.id;
+		const adminUser = await User.create([userData], { session });
+		if (!adminUser) {
+			throw new AppError(
+				httpStatus.BAD_GATEWAY,
+				"Transaction failed to the create Admin User"
+			);
+		}
+		const newAdmin = await Admin.create([payload], { session });
+		if (!newAdmin) {
+			throw new AppError(
+				httpStatus.BAD_GATEWAY,
+				"Transaction failed to the create Admin"
+			);
+		}
+		await session.commitTransaction();
+		await session.endSession();
+		return newAdmin[0];
+	} catch (error) {
+		await session.abortTransaction();
+		await session.endSession();
+		throw error;
+	}
 };
 
 export const userServices = {

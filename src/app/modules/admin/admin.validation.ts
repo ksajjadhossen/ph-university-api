@@ -12,7 +12,7 @@ const createAdminValidationSchema = z.object({
 	body: z.object({
 		password: z.string(),
 		admin: object({
-			id: z.string().min(1, "id is required"),
+			id: z.string().optional(),
 			user: z.string().optional(), // Assuming the user is an ObjectId stored as a string
 			needsPasswordChange: z.boolean().default(true),
 			designation: z.boolean({
