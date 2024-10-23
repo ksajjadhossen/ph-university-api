@@ -24,7 +24,7 @@ export type TAdmin = {
 		permanentAddress: string;
 		profileImage: string;
 		status: string;
-		manageDepartment: Types.ObjectId;
+		academicFaculty: Types.ObjectId;
 		academicDepartment: Types.ObjectId;
 		isDeleted: boolean;
 	};

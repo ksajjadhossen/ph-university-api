@@ -50,7 +50,7 @@ const adminSchema = new Schema<TAdmin>({
 		},
 		profileImage: { type: String },
 		status: { type: String, required: [true, "status is required"] },
-		manageDepartment: Schema.ObjectId,
+		academicFaculty: Schema.ObjectId,
 		academicDepartment: Schema.ObjectId,
 		isDeleted: { type: Boolean, default: false },
 	},

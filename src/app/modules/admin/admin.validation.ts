@@ -36,7 +36,7 @@ const createAdminValidationSchema = z.object({
 			permanentAddress: z.string().min(1, "Permanent Address is required"),
 			profileImage: z.string().optional(),
 			status: z.string().min(1, "status is required"),
-			manageDepartment: z.string().optional(), // Assuming ObjectId stored as a string
+			academicFaculty: z.string().optional(), // Assuming ObjectId stored as a string
 			academicDepartment: z.string().optional(), // Assuming ObjectId stored as a string
 			isDeleted: z.boolean().default(false),
 		}),

@@ -5,6 +5,7 @@ import { AppError } from "../../error/appError";
 import { AcademicDepartment } from "../academicDepartmant/academicDepartment.model";
 import { AcademicFaculty } from "../academicFaculty/academicFaculty.model";
 import { AcademicSemesterModel } from "../academicSemester/academicSemester.model";
+import { TAdmin } from "../admin/admin.interface";
 import { Faculty } from "../faculty/faculty.model";
 import { IStudent } from "../student/student.interface";
 import { Student } from "../student/student.model";
@@ -110,7 +111,21 @@ const createFaculty = async (password: string, payload: TFaculty) => {
 	}
 };
 
+const createAdmin = async (password: string, payload: TAdmin) => {
+	const userData: Partial<IUser> = {};
+	userData.password = password || (config.default_password as string);
+
+	const academicDepartment = await AcademicDepartment.findById(
+		payload.academicDepartment
+	);
+	if (!academicDepartment) {
+		throw new Error("academic Department not found");
+	}
+	const;
+};
+
 export const userServices = {
 	createStudent,
 	createFaculty,
+	createAdmin,
 };

@@ -2,8 +2,6 @@ import { Request, RequestHandler, Response } from "express";
 import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
-import { TAdmin } from "../admin/admin.interface";
-import { Admin } from "../admin/admin.model";
 import { userServices } from "./user.services";
 
 const createStudent: RequestHandler = catchAsync(
@@ -31,9 +29,14 @@ const createFaculty: RequestHandler = catchAsync(async (req, res) => {
 });
 
 const createAdmin: RequestHandler = catchAsync(async (req, res) => {
-	const adminData: TAdmin = req.body;
-	const result = await Admin.create(adminData);
-	console.log("36 userController", result);
+	const { password, admin } = req.body;
+	const result = await userServices.createAdmin(password, admin);
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		Success: true,
+		message: "Faculty created successfully",
+		data: result,
+	});
 });
 
 export const userController = {
