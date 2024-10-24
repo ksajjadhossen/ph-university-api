@@ -29,7 +29,11 @@ const deleteFAcultyById = async (id: string) => {
 	}
 	const userId = deleteFaculty.user;
 
-	const deleteUser = await User.findByIdAndUpdate(userId, { isDeleted: true });
+	const deleteUser = await User.findByIdAndUpdate(
+		userId,
+		{ isDeleted: true },
+		{ new: true }
+	);
 	if (!deleteUser) {
 		throw new AppError(httpStatus.BAD_REQUEST, "FacultyUser is not deleted");
 	}
