@@ -8,7 +8,6 @@ const FacultyNameSchema = new Schema<TFacultyName>({
 	},
 	middleName: {
 		type: String,
-		required: true,
 	},
 	lastName: {
 		type: String,
@@ -32,7 +31,7 @@ export const facultySchema = new Schema<TFaculty>({
 	profileImage: { type: String },
 	academicDepartment: {
 		type: Schema.Types.ObjectId,
-		ref: "AcademicDepartment",
+		ref: "User",
 	},
 	status: { type: String, required: true },
 	academicFaculty: {

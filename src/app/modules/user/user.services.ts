@@ -95,6 +95,9 @@ const createFaculty = async (password: string, payload: TFaculty) => {
 		payload.id = userData.id;
 
 		const facultyUser = await User.create([userData], { session });
+
+		payload.user = facultyUser[0]._id;
+
 		if (!facultyUser) {
 			throw new AppError(httpStatus.BAD_REQUEST, "Faculty User not created");
 		}

@@ -23,9 +23,10 @@ const getSingleFacultyById = catchAsync(async (req, res) => {
 		data: result,
 	});
 });
+
 const deleteFacultyById = catchAsync(async (req, res) => {
-	const { facultyId } = req.params;
-	const result = await facultyServices.deleteFAcultyById(facultyId);
+	const { id } = req.params;
+	const result = await facultyServices.deleteFAcultyById(id);
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
 		Success: true,

@@ -1,4 +1,7 @@
+import httpStatus from "http-status";
+import { AppError } from "../../error/appError";
 import makeFlattenedObject from "../../utils/makeFlattenObject";
+import { User } from "../user/user.model";
 import { TFaculty } from "./faculty.interface";
 import { Faculty } from "./faculty.model";
 
@@ -13,12 +16,24 @@ const getSingleFacultyById = async (id: string) => {
 };
 
 const deleteFAcultyById = async (id: string) => {
-	const result = await Faculty.findOneAndUpdate(
-		{ id: id },
-		{ isDeleted: true },
+	const deleteFaculty = await Faculty.findByIdAndUpdate(
+		id,
+		{
+			isDeleted: true,
+		},
 		{ new: true }
 	);
-	return result;
+
+	if (!deleteFaculty) {
+		throw new AppError(httpStatus.BAD_REQUEST, "Faculty is not deleted");
+	}
+	const userId = deleteFaculty.user;
+
+	const deleteUser = await User.findByIdAndUpdate(userId, { isDeleted: true });
+	if (!deleteUser) {
+		throw new AppError(httpStatus.BAD_REQUEST, "FacultyUser is not deleted");
+	}
+	return deleteFaculty;
 };
 
 const updateFacultyById = async (id: string, payload: Partial<TFaculty>) => {
