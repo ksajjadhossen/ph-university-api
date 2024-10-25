@@ -25,8 +25,8 @@ const updateAdminFromDb: RequestHandler = catchAsync(async (req, res) => {
 	});
 });
 const deleteAdminFromDb: RequestHandler = catchAsync(async (req, res) => {
-	const { adminId } = req.params;
-	const result = await adminServices.deleteAdminFromDb(adminId);
+	const { id } = req.params;
+	const result = await adminServices.deleteAdminFromDb(id);
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
 		Success: true,

@@ -1,4 +1,7 @@
+import httpStatus from "http-status";
+import { AppError } from "../../error/appError";
 import makeFlattenedObject from "../../utils/makeFlattenObject";
+import { User } from "../user/user.model";
 import { TAdmin } from "./admin.interface";
 import { Admin } from "./admin.model";
 
@@ -15,12 +18,26 @@ const updateAdminFromDb = async (id: string, payload: Partial<TAdmin>) => {
 	return result;
 };
 const deleteAdminFromDb = async (id: string) => {
-	const result = await Admin.findOneAndUpdate(
-		{ id },
+	const deleteAdmin = await Admin.findByIdAndUpdate(
+		id,
 		{ isDeleted: true },
 		{ new: true }
 	);
-	return result;
+
+	if (!deleteAdmin) {
+		throw new AppError(httpStatus.BAD_REQUEST, "Admin not deleted");
+	}
+	const userId = deleteAdmin.user;
+	const deleteAdminUser = await User.findByIdAndUpdate(
+		userId,
+		{ isDeleted: true },
+		{ new: true }
+	);
+
+	if (!deleteAdminUser) {
+		throw new AppError(httpStatus.BAD_REQUEST, "Admin user not found");
+	}
+	return deleteAdmin;
 };
 
 export const adminServices = {

@@ -145,6 +145,7 @@ const createAdmin = async (password: string, payload: TAdmin) => {
 		userData.id = await generateAdminId();
 		payload.id = userData.id;
 		const adminUser = await User.create([userData], { session });
+		payload.user = adminUser[0]._id;
 		if (!adminUser) {
 			throw new AppError(
 				httpStatus.BAD_GATEWAY,

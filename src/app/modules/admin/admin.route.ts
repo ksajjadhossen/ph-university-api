@@ -10,6 +10,6 @@ router.patch(
 	validateRequest(adminValidationSchema.updateAdminValidationSchema),
 	adminController.updateAdminFromDb
 );
-router.delete("/:adminId", adminController.deleteAdminFromDb);
+router.delete("/:id", adminController.deleteAdminFromDb);
 
 export const adminRouter = router;
