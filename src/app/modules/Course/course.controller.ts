@@ -6,6 +6,7 @@ import { courseServices } from "./course.service";
 
 const createCourseIntoDb: RequestHandler = catchAsync(async (req, res) => {
 	const data = req.body;
+	console.log("controller", data);
 	const result = await courseServices.createCourseIntoDb(data);
 
 	sendResponse(res, {

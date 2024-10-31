@@ -7,11 +7,11 @@ const createPreRequisiteCoursesSchema = z.object({
 
 const CreateCourseValidationSchema = z.object({
 	body: z.object({
-		tittle: z.string(),
-		prefix: z.string(),
-		course: z.number(),
-		credits: z.number(),
-		preRequisiteCourses: z.array(createPreRequisiteCoursesSchema),
+		tittle: z.string({ required_error: "tittle is required string" }),
+		prefix: z.string({ required_error: "prefix is required string" }),
+		code: z.number({ required_error: "code is required number" }),
+		credits: z.number({ required_error: "credits is required number" }),
+		preRequisiteCourses: z.array(createPreRequisiteCoursesSchema).optional(),
 	}),
 });
 

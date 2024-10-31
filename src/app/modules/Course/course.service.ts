@@ -8,12 +8,15 @@ const createCourseIntoDb = async (payload: TCourse) => {
 };
 
 const findSingleCourseFromDb = async (id: string) => {
-	const result = await Course.findById(id);
+	const result = await Course.findById(id).populate(
+		"prerequisiteCourses.courses"
+	);
 	return result;
 };
 
 const findCoursesFromDb = async () => {
-	const result = await Course.find();
+	const result = await Course.find().populate("prerequisiteCourses.courses");
+	console.log(17, result.toString());
 	return result;
 };
 
