@@ -21,6 +21,7 @@ const findCoursesFromDb = async () => {
 };
 
 const deleteCourseFromDb = async (id: string) => {
+	console.log(id);
 	const result = await Course.findByIdAndUpdate(
 		id,
 		{ isDeleted: true },

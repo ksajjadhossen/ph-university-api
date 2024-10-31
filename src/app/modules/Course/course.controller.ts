@@ -36,8 +36,8 @@ const findCoursesFromDb: RequestHandler = catchAsync(async (req, res) => {
 	});
 });
 const deleteCourseFromDb: RequestHandler = catchAsync(async (req, res) => {
-	const data = req.body;
-	const result = await courseServices.deleteCourseFromDb(data);
+	const { id } = req.params;
+	const result = await courseServices.deleteCourseFromDb(id);
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
 		message: "course is deleted",
