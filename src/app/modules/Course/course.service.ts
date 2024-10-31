@@ -1,23 +1,24 @@
 import { TCourse } from "./course.interface";
 import { Course } from "./course.model";
 
-const createCourseIntoDb = (payload: TCourse) => {
-	const result = Course.create(payload);
+const createCourseIntoDb = async (payload: TCourse) => {
+	const result = await Course.create(payload);
+
 	return result;
 };
 
-const findSingleCourseFromDb = (id: string) => {
-	const result = Course.findById(id);
+const findSingleCourseFromDb = async (id: string) => {
+	const result = await Course.findById(id);
 	return result;
 };
 
-const findCoursesFromDb = () => {
-	const result = Course.find();
+const findCoursesFromDb = async () => {
+	const result = await Course.find();
 	return result;
 };
 
-const deleteCourseFromDb = (id: string) => {
-	const result = Course.findByIdAndUpdate(
+const deleteCourseFromDb = async (id: string) => {
+	const result = await Course.findByIdAndUpdate(
 		id,
 		{ isDeleted: true },
 		{ new: true }

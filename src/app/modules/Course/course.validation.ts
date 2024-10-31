@@ -16,5 +16,5 @@ const CreateCourseValidationSchema = z.object({
 });
 
 export const courseValidation = {
-	createPreRequisiteCoursesSchema,
+	CreateCourseValidationSchema,
 };
