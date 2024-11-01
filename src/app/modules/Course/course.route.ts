@@ -11,6 +11,7 @@ router.post(
 	courseController.createCourseIntoDb
 );
 router.get("/:id", courseController.findSingleCourseFromDb);
+router.patch("/:id", courseController.updateCourseToDb);
 router.delete("/:id", courseController.deleteCourseFromDb);
 
 export const courseRouter = router;
