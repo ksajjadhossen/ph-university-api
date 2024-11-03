@@ -1,4 +1,6 @@
+import httpStatus from "http-status";
 import mongoose from "mongoose";
+import { AppError } from "../../error/appError";
 import { TCourse } from "./course.interface";
 import { Course } from "./course.model";
 
@@ -54,13 +56,19 @@ const updateCourseFromDb = async (id: string, payload: Partial<TCourse>) => {
 					session,
 				}
 			);
+			if (!deletedPreRequisiteCourses) {
+				throw new AppError(
+					httpStatus.BAD_REQUEST,
+					" can not deletedPreRequisiteCourses"
+				);
+			}
 			const newPreRequisites = prerequisiteCourses.filter(
 				(el) => el.courses && !el.isDeleted
 			);
 			const newPreRequisiteCourses = await Course.findByIdAndUpdate(
 				id,
 				{
-					$addToSet: { prerequisiteCourses: { $each: { newPreRequisites } } },
+					$addToSet: { prerequisiteCourses: { $each: newPreRequisites } },
 				},
 				{
 					new: true,
@@ -68,6 +76,12 @@ const updateCourseFromDb = async (id: string, payload: Partial<TCourse>) => {
 					session,
 				}
 			);
+			if (!newPreRequisiteCourses) {
+				throw new AppError(
+					httpStatus.BAD_REQUEST,
+					" can not newPreRequisiteCourses"
+				);
+			}
 		}
 
 		const result = await Course.findById(id).populate(
@@ -80,6 +94,7 @@ const updateCourseFromDb = async (id: string, payload: Partial<TCourse>) => {
 	} catch (error) {
 		await session.abortTransaction();
 		await session.endSession();
+		throw error;
 	}
 };
 const deleteCourseFromDb = async (id: string) => {
