@@ -16,6 +16,10 @@ router.patch(
 	courseController.updateCourseToDb,
 	validateRequest(courseValidation.updateCourseValidationSchema)
 );
+router.put(
+	"/:courseId/assign-faculties",
+	courseController.assignFacultiesIntoDB
+);
 router.delete("/:id", courseController.deleteCourseFromDb);
 
 export const courseRouter = router;

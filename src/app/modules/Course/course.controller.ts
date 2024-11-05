@@ -57,10 +57,23 @@ const updateCourseToDb: RequestHandler = catchAsync(async (req, res) => {
 	});
 });
 
+const assignFacultiesIntoDB: RequestHandler = catchAsync(async (req, res) => {
+	const { courseId } = req.params;
+	const data = req.body;
+	const result = await courseServices.assignFacultiesIntoDB(courseId, data);
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		message: "course is Updated",
+		Success: true,
+		data: result,
+	});
+});
+
 export const courseController = {
 	createCourseIntoDb,
 	findCoursesFromDb,
 	findSingleCourseFromDb,
 	updateCourseToDb,
 	deleteCourseFromDb,
+	assignFacultiesIntoDB,
 };
