@@ -18,6 +18,7 @@ router.patch(
 );
 router.put(
 	"/:courseId/assign-faculties",
+	validateRequest(courseValidation.assignFacultiesWithCourseValidationSchema),
 	courseController.assignFacultiesIntoDB
 );
 router.delete("/:id", courseController.deleteCourseFromDb);

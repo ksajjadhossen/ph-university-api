@@ -63,7 +63,7 @@ const assignFacultiesIntoDB: RequestHandler = catchAsync(async (req, res) => {
 	const result = await courseServices.assignFacultiesIntoDB(courseId, data);
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
-		message: "course is Updated",
+		message: "faculty assigned successfully.",
 		Success: true,
 		data: result,
 	});
