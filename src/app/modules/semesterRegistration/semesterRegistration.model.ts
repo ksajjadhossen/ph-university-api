@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 import { semesterRegistrationStatus } from "./semesterREgistration.constant";
 import { TSemesterRegistration } from "./semesterRegistration.interface";
 
@@ -23,4 +23,9 @@ const semesterRegistrationSchema = new Schema<TSemesterRegistration>(
 	{
 		timestamps: true,
 	}
+);
+
+export const SemesterRegistration = model<TSemesterRegistration>(
+	"SemesterRegistration",
+	semesterRegistrationSchema
 );
