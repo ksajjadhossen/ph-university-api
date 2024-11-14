@@ -30,10 +30,10 @@ const createSemesterRegistrationIntoDb = async (
 	return result;
 };
 const getAllSemesterRegistrationIntoDb = async () => {
-	const result = 34343;
-
+	const result = await SemesterRegistration.find();
 	return result;
 };
+
 const getSingleSemesterRegistrationIntoDb = async (id: string) => {
 	const result = 34343;
 

@@ -13,4 +13,9 @@ router.post(
 	semesterRegistrationController.createSemesterRegistrationIntoDb
 );
 
+router.get(
+	"/get-all-semester-registration",
+	semesterRegistrationController.getAllSemesterRegistrationIntoDb
+);
+
 export const semesterRegistrationRouter = router;
