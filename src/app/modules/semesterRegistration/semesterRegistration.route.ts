@@ -21,5 +21,8 @@ router.get(
 	"/:semesterRegistrationId",
 	semesterRegistrationController.getSingleSemesterRegistrationIntoDb
 );
-
+router.patch(
+	"/:semesterRegistrationId",
+	semesterRegistrationController.updateSemesterRegistrationIntoDb
+);
 export const semesterRegistrationRouter = router;

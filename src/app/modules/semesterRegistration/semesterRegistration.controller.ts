@@ -42,26 +42,26 @@ const getSingleSemesterRegistrationIntoDb = catchAsync(async (req, res) => {
 		data: result,
 	});
 });
-// const updateSemesterRegistrationIntoDb = catchAsync(async (req, res) => {
-// 	const SemesterRegistrationId = req.params;
-// 	const data = req.body;
-// 	const result =
-// 		await semesterRegistrationServices.updateSemesterRegistrationIntoDb(
-// 			SemesterRegistrationId,
-// 			data
-// 		);
+const updateSemesterRegistrationIntoDb = catchAsync(async (req, res) => {
+	const { semesterRegistrationId } = req.params;
+	const data = req.body;
+	const result =
+		await semesterRegistrationServices.updateSemesterRegistrationIntoDb(
+			semesterRegistrationId,
+			data
+		);
 
-// 	sendResponse(res, {
-// 		statusCode: httpStatus.OK,
-// 		Success: true,
-// 		message: "student Updated successfully",
-// 		data: result,
-// 	});
-// });
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		Success: true,
+		message: "student Updated successfully",
+		data: result,
+	});
+});
 
 export const semesterRegistrationController = {
 	createSemesterRegistrationIntoDb,
 	getAllSemesterRegistrationIntoDb,
 	getSingleSemesterRegistrationIntoDb,
-	// updateSemesterRegistrationIntoDb,
+	updateSemesterRegistrationIntoDb,
 };
