@@ -23,6 +23,9 @@ router.get(
 );
 router.patch(
 	"/:semesterRegistrationId",
+	validateRequest(
+		semesterRegistrationValidationSchema.updateSemesterRegistrationValidationSchema
+	),
 	semesterRegistrationController.updateSemesterRegistrationIntoDb
 );
 export const semesterRegistrationRouter = router;

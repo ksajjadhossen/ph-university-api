@@ -7,7 +7,7 @@ import { SemesterRegistration } from "./semesterRegistration.model";
 const createSemesterRegistrationIntoDb = async (
 	payload: TSemesterRegistration
 ) => {
-	const academicSemester = payload.academicSemester;
+	const academicSemester = payload?.academicSemester;
 
 	const isAcademicSemesterExists = await AcademicSemesterModel.findById(
 		academicSemester
@@ -15,6 +15,18 @@ const createSemesterRegistrationIntoDb = async (
 
 	if (!isAcademicSemesterExists) {
 		throw new AppError(httpStatus.NOT_FOUND, "Academic Semester is not found");
+	}
+
+	const isThereUpcomingAndOngoingSemester = await SemesterRegistration.findOne({
+		$or: [{ status: "UPCOMING" }, { status: "ONGOING" }],
+	});
+	console.log(isAcademicSemesterExists, "25");
+	if (isThereUpcomingAndOngoingSemester) {
+		console.log("inside of if condition");
+		throw new AppError(
+			httpStatus.NOT_FOUND,
+			`here is already a ${isThereUpcomingAndOngoingSemester.status}`
+		);
 	}
 
 	const isSemesterRegistrationExists = await SemesterRegistration.findOne({
@@ -30,7 +42,7 @@ const createSemesterRegistrationIntoDb = async (
 	return result;
 };
 const getAllSemesterRegistrationIntoDb = async () => {
-	const result = await SemesterRegistration.find();
+	const result = await SemesterRegistration.find().populate("academicSemester");
 	return result;
 };
 
@@ -42,7 +54,7 @@ const updateSemesterRegistrationIntoDb = async (
 	id: string,
 	payload: TSemesterRegistration
 ) => {
-	const result = 34343;
+	const result = await SemesterRegistration.findByIdAndUpdate(id, payload);
 
 	return result;
 };

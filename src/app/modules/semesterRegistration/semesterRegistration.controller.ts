@@ -54,7 +54,7 @@ const updateSemesterRegistrationIntoDb = catchAsync(async (req, res) => {
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
 		Success: true,
-		message: "student Updated successfully",
+		message: "semesterRegistration Updated successfully",
 		data: result,
 	});
 });
