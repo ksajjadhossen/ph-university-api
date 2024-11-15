@@ -34,7 +34,7 @@ const createSemesterRegistrationIntoDb = async (
 	});
 
 	if (isSemesterRegistrationExists) {
-		throw new AppError(httpStatus.CONFLICT, "Semester already registered");
+		throw new AppError(httpStatus.BAD_REQUEST, "Semester already registered");
 	}
 
 	const result = await SemesterRegistration.create(payload);
@@ -52,8 +52,14 @@ const getSingleSemesterRegistrationIntoDb = async (id: string) => {
 };
 const updateSemesterRegistrationIntoDb = async (
 	id: string,
-	payload: TSemesterRegistration
+	payload: Partial<TSemesterRegistration>
 ) => {
+	const requestedSemesterRegistration = await SemesterRegistration.findById(id);
+
+	if (requestedSemesterRegistration?.status === "ENDED") {
+		throw new AppError(httpStatus.BAD_REQUEST, "Semester is already ENDED");
+	}
+
 	const result = await SemesterRegistration.findByIdAndUpdate(id, payload);
 
 	return result;
