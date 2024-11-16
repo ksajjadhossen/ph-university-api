@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const createOfferedCourseZodSchema = z.object({
+const createOfferedCourseZodSchema = z.object({
 	body: z.object({
 		semesterRegistration: z.string({
 			required_error: "Semester Registration ID is required.",
@@ -25,3 +25,7 @@ export const createOfferedCourseZodSchema = z.object({
 		endTime: z.string({ required_error: "End time is required." }),
 	}),
 });
+
+export const offeredCourseValidationSchema = {
+	createOfferedCourseZodSchema,
+};
