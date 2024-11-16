@@ -18,17 +18,17 @@ const createSemesterRegistrationIntoDb = async (
 		throw new AppError(httpStatus.NOT_FOUND, "Academic Semester is not found");
 	}
 
-	const isThereUpcomingAndOngoingSemester = await SemesterRegistration.findOne({
+	const isThereUpcomingOrOngoingSemester = await SemesterRegistration.findOne({
 		$or: [
 			{ status: semesterRegistration.UPCOMING },
 			{ status: semesterRegistration.ONGOING },
 		],
 	});
 
-	if (isThereUpcomingAndOngoingSemester) {
+	if (isThereUpcomingOrOngoingSemester) {
 		throw new AppError(
 			httpStatus.NOT_FOUND,
-			`here is already a ${isThereUpcomingAndOngoingSemester.status}`
+			`here is already a ${isThereUpcomingOrOngoingSemester.status}`
 		);
 	}
 
@@ -59,13 +59,11 @@ const updateSemesterRegistrationIntoDb = async (
 ) => {
 	const requestedSemesterRegistration = await SemesterRegistration.findById(id);
 	const requestedStatus = payload?.status;
+	const currentSemesterStatus = requestedSemesterRegistration?.status;
 
 	if (requestedSemesterRegistration?.status === semesterRegistration.ENDED) {
 		throw new AppError(httpStatus.BAD_REQUEST, "Semester is already ENDED");
-	}
-	const currentSemesterStatus = requestedSemesterRegistration?.status;
-
-	if (
+	} else if (
 		(currentSemesterStatus === semesterRegistration.UPCOMING &&
 			requestedStatus === semesterRegistration.ENDED) ||
 		(currentSemesterStatus === semesterRegistration.ONGOING &&
