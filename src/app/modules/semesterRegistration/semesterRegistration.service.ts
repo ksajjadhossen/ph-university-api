@@ -1,6 +1,7 @@
 import httpStatus from "http-status";
 import { AppError } from "../../error/appError";
-import { AcademicSemesterModel } from "../academicSemester/academicSemester.model";
+import { AcademicSemesterModel } from "./../academicSemester/academicSemester.model";
+import { semesterRegistration } from "./semesterREgistration.constant";
 import { TSemesterRegistration } from "./semesterRegistration.interface";
 import { SemesterRegistration } from "./semesterRegistration.model";
 
@@ -18,11 +19,13 @@ const createSemesterRegistrationIntoDb = async (
 	}
 
 	const isThereUpcomingAndOngoingSemester = await SemesterRegistration.findOne({
-		$or: [{ status: "UPCOMING" }, { status: "ONGOING" }],
+		$or: [
+			{ status: semesterRegistration.UPCOMING },
+			{ status: semesterRegistration.ONGOING },
+		],
 	});
-	console.log(isAcademicSemesterExists, "25");
+
 	if (isThereUpcomingAndOngoingSemester) {
-		console.log("inside of if condition");
 		throw new AppError(
 			httpStatus.NOT_FOUND,
 			`here is already a ${isThereUpcomingAndOngoingSemester.status}`
@@ -55,9 +58,23 @@ const updateSemesterRegistrationIntoDb = async (
 	payload: Partial<TSemesterRegistration>
 ) => {
 	const requestedSemesterRegistration = await SemesterRegistration.findById(id);
+	const requestedStatus = payload?.status;
 
-	if (requestedSemesterRegistration?.status === "ENDED") {
+	if (requestedSemesterRegistration?.status === semesterRegistration.ENDED) {
 		throw new AppError(httpStatus.BAD_REQUEST, "Semester is already ENDED");
+	}
+	const currentSemesterStatus = requestedSemesterRegistration?.status;
+
+	if (
+		(currentSemesterStatus === semesterRegistration.UPCOMING &&
+			requestedStatus === semesterRegistration.ENDED) ||
+		(currentSemesterStatus === semesterRegistration.ONGOING &&
+			requestedStatus === semesterRegistration.UPCOMING)
+	) {
+		throw new AppError(
+			httpStatus.BAD_REQUEST,
+			`you can't update your status from ${currentSemesterStatus} to ${requestedStatus}`
+		);
 	}
 
 	const result = await SemesterRegistration.findByIdAndUpdate(id, payload);
