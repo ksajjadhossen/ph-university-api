@@ -21,6 +21,6 @@ router.patch(
 	validateRequest(offeredCourseValidationSchema.createOfferedCourseZodSchema),
 	offeredCourseController.updateOfferedCourse
 );
-router.delete("/:OfferedCourseId", offeredCourseController.deleteOfferedCourse);
+// router.delete("/:OfferedCourseId", offeredCourseController.deleteOfferedCourse);
 
 export const offeredCourseRouter = router;

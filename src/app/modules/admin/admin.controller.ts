@@ -4,6 +4,15 @@ import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { adminServices } from "./admin.service";
 
+const crateAdminIntoDb: RequestHandler = catchAsync(async (req, res) => {
+	const result = await adminServices.getAllAdminsFromDb();
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		Success: true,
+		message: "Admins found successfully",
+		data: result,
+	});
+});
 const getAllAdminsFromDb: RequestHandler = catchAsync(async (req, res) => {
 	const result = await adminServices.getAllAdminsFromDb();
 	sendResponse(res, {
@@ -36,6 +45,7 @@ const deleteAdminFromDb: RequestHandler = catchAsync(async (req, res) => {
 });
 
 export const adminController = {
+	crateAdminIntoDb,
 	getAllAdminsFromDb,
 	updateAdminFromDb,
 	deleteAdminFromDb,
