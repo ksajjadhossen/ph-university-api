@@ -16,10 +16,10 @@ const createOfferedCourse = async (payload: TOfferedCourse) => {
 	const academicDepartment = payload?.academicDepartment;
 	const course = payload?.course;
 	const faculty = payload?.faculty;
-
 	const isSemesterRegistrationExists =
 		SemesterRegistration.findById(semesterRegistration);
 	if (!isSemesterRegistrationExists) {
+		console.log(23);
 		throw new AppError(
 			httpStatus.BAD_REQUEST,
 			"semesterRegistration is not exists"
