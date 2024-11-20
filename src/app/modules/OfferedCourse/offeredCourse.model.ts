@@ -8,15 +8,9 @@ export const offeredCourseSchema = new Schema<TOfferedCourse>({
 		ref: "SemesterRegistration",
 		required: true,
 	},
-	academicSemester: {
-		type: Schema.Types.ObjectId,
-		ref: "AcademicSemesterModel",
-		required: true,
-	},
 	academicFaculty: {
 		type: Schema.Types.ObjectId,
 		ref: "AcademicFaculty",
-		required: true,
 	},
 	academicDepartment: {
 		type: Schema.Types.ObjectId,
@@ -34,7 +28,7 @@ export const offeredCourseSchema = new Schema<TOfferedCourse>({
 		default: 10,
 	},
 	section: { type: Number, required: true },
-	days: { type: String, enum: Days },
+	days: [{ type: String, enum: Days }],
 	startTime: { type: String, required: true },
 	endTime: { type: String, required: true },
 });

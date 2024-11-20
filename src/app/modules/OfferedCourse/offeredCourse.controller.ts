@@ -5,7 +5,7 @@ import sendResponse from "../../utils/sendResponse";
 import { offeredCourseService } from "./offeredCourse.service";
 
 const createOfferedCourse: RequestHandler = catchAsync(async (req, res) => {
-	const result = offeredCourseService.createOfferedCourse(req.body);
+	const result = await offeredCourseService.createOfferedCourse(req.body);
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
 		Success: true,

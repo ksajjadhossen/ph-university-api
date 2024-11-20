@@ -5,56 +5,60 @@ import { AcademicFaculty } from "../academicFaculty/academicFaculty.model";
 import { Course } from "../Course/course.model";
 import { Faculty } from "../faculty/faculty.model";
 import { SemesterRegistration } from "../semesterRegistration/semesterRegistration.model";
-import { AcademicSemesterModel } from "./../academicSemester/academicSemester.model";
 import { TOfferedCourse } from "./offeredCourse.interface";
 import { OfferedCourse } from "./offeredCourse.model";
 
 const createOfferedCourse = async (payload: TOfferedCourse) => {
-	const semesterRegistration = payload?.semesterRegistration;
-	const academicSemester = payload?.academicSemester;
-	const academicFaculty = payload?.academicFaculty;
-	const academicDepartment = payload?.academicDepartment;
-	const course = payload?.course;
-	const faculty = payload?.faculty;
-	const isSemesterRegistrationExists =
-		SemesterRegistration.findById(semesterRegistration);
+	// const semesterRegistration = payload?.semesterRegistration;
+	// const academicSemester = payload?.academicSemester;
+	// const academicFaculty = payload?.academicFaculty;
+	// const academicDepartment = payload?.academicDepartment;
+	// const course = payload?.course;
+	// const faculty = payload?.faculty;
+
+	const {
+		semesterRegistration,
+		academicFaculty,
+		academicDepartment,
+		course,
+		faculty,
+	} = payload;
+	const isSemesterRegistrationExists = await SemesterRegistration.findById(
+		semesterRegistration
+	);
+
 	if (!isSemesterRegistrationExists) {
-		console.log(23);
 		throw new AppError(
 			httpStatus.BAD_REQUEST,
 			"semesterRegistration is not exists"
 		);
 	}
-	const isAcademicSemesterExists =
-		AcademicSemesterModel.findById(academicSemester);
-	if (!isAcademicSemesterExists) {
-		throw new AppError(
-			httpStatus.BAD_REQUEST,
-			"academicSemester is not exists"
-		);
-	}
-	const isAcademicFacultyExists = AcademicFaculty.findById(academicFaculty);
+	const isAcademicFacultyExists = await AcademicFaculty.findById(
+		academicFaculty
+	);
 	if (!isAcademicFacultyExists) {
 		throw new AppError(httpStatus.BAD_REQUEST, "academicFaculty is not exists");
 	}
-	const isAcademicDepartmentExists =
-		AcademicDepartment.findById(academicDepartment);
+	const isAcademicDepartmentExists = await AcademicDepartment.findById(
+		academicDepartment
+	);
 	if (!isAcademicDepartmentExists) {
 		throw new AppError(
 			httpStatus.BAD_REQUEST,
 			"academicDepartment is not exists"
 		);
 	}
-	const isCourseExists = Course.findById(course);
+	const isCourseExists = await Course.findById(course);
 	if (!isCourseExists) {
 		throw new AppError(httpStatus.BAD_REQUEST, "course is not exists");
 	}
-	const isFacultyExists = Faculty.findById(faculty);
+	const isFacultyExists = await Faculty.findById(faculty);
 	if (!isFacultyExists) {
 		throw new AppError(httpStatus.BAD_REQUEST, "faculty is not exists");
 	}
 
 	const result = await OfferedCourse.create(payload);
+
 	return result;
 };
 const findAllOfferedCourse = async () => {
