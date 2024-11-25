@@ -24,8 +24,9 @@ const findAllOfferedCourse: RequestHandler = catchAsync(async (req, res) => {
 	});
 });
 const findSingleOfferedCourse: RequestHandler = catchAsync(async (req, res) => {
+	const { OfferedCourseId } = req.params;
 	const result = await offeredCourseService.findSingleOfferedCourse(
-		req.params.id
+		OfferedCourseId
 	);
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
