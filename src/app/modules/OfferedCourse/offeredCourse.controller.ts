@@ -14,7 +14,8 @@ const createOfferedCourse: RequestHandler = catchAsync(async (req, res) => {
 	});
 });
 const findAllOfferedCourse: RequestHandler = catchAsync(async (req, res) => {
-	const result = offeredCourseService.findAllOfferedCourse();
+	const result = await offeredCourseService.findAllOfferedCourse();
+	console.log(result);
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
 		Success: true,
@@ -23,7 +24,9 @@ const findAllOfferedCourse: RequestHandler = catchAsync(async (req, res) => {
 	});
 });
 const findSingleOfferedCourse: RequestHandler = catchAsync(async (req, res) => {
-	const result = offeredCourseService.findSingleOfferedCourse(req.params.id);
+	const result = await offeredCourseService.findSingleOfferedCourse(
+		req.params.id
+	);
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
 		Success: true,
