@@ -38,6 +38,7 @@ const findSingleOfferedCourse: RequestHandler = catchAsync(async (req, res) => {
 const updateOfferedCourse: RequestHandler = catchAsync(async (req, res) => {
 	const { OfferedCourseId } = req.params;
 	const data = req.body;
+	console.log(41, data);
 	const result = await offeredCourseService.updateOfferedCourse(
 		OfferedCourseId,
 		data

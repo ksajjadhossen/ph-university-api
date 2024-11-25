@@ -1,6 +1,16 @@
 import { z } from "zod";
 import { Days } from "./offeredCourse.constant";
 
+const timeStructure = z.string().refine(
+	(time) => {
+		const regex = /^(?:[01]\d|2[0-3]):[0-5]\d$/;
+		return regex.test(time);
+	},
+	{
+		message: "Start time is invalid please edit the time style",
+	}
+);
+
 const createOfferedCourseZodSchema = z.object({
 	body: z.object({
 		semesterRegistration: z.string({
@@ -24,24 +34,8 @@ const createOfferedCourseZodSchema = z.object({
 			.default(10),
 		section: z.number({ required_error: "Section number is required." }),
 		days: z.array(z.enum([...(Days as [string, ...string[]])])),
-		startTime: z.string().refine(
-			(time) => {
-				const regex = /^(?:[01]\d|2[0-3]):[0-5]\d$/;
-				return regex.test(time);
-			},
-			{
-				message: "Start time is invalid please edit the time style",
-			}
-		),
-		endTime: z.string().refine(
-			(time) => {
-				const regex = /^(?:[01]\d|2[0-3]):[0-5]\d$/;
-				return regex.test(time);
-			},
-			{
-				message: "End time time is invalid please edit the time style",
-			}
-		),
+		startTime: timeStructure,
+		endTime: timeStructure,
 	}),
 	// .refine(
 	// 	({ body }) => {
@@ -54,7 +48,20 @@ const createOfferedCourseZodSchema = z.object({
 	// 	}
 	// ),
 });
+const updateOfferedCourseZodSchema = z.object({
+	body: z.object({
+		faculty: z.string({ required_error: "Faculty ID is required." }).optional(),
+		maxCapacity: z
+			.number({ required_error: "Max capacity is required." })
+			.default(10)
+			.optional(),
+		days: z.array(z.enum([...(Days as [string, ...string[]])])).optional(),
+		startTime: timeStructure.optional(),
+		endTime: timeStructure.optional(),
+	}),
+});
 
 export const offeredCourseValidationSchema = {
 	createOfferedCourseZodSchema,
+	updateOfferedCourseZodSchema,
 };

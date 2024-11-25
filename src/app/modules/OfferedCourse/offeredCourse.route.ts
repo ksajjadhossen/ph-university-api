@@ -18,7 +18,7 @@ router.get(
 );
 router.patch(
 	"/:OfferedCourseId",
-	validateRequest(offeredCourseValidationSchema.createOfferedCourseZodSchema),
+	validateRequest(offeredCourseValidationSchema.updateOfferedCourseZodSchema),
 	offeredCourseController.updateOfferedCourse
 );
 // router.delete("/:OfferedCourseId", offeredCourseController.deleteOfferedCourse);

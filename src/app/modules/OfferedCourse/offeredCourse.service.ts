@@ -80,7 +80,9 @@ const updateOfferedCourse = async (
 	id: string,
 	payload: Partial<TOfferedCourse>
 ) => {
-	const result = await OfferedCourse.findByIdAndUpdate(id, payload);
+	const result = await OfferedCourse.findByIdAndUpdate(id, payload, {
+		new: true,
+	});
 	return result;
 };
 // const deleteOfferedCourse = async (id: string) => {
