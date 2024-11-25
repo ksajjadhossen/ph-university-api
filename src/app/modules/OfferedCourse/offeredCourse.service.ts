@@ -26,13 +26,20 @@ const createOfferedCourse = async (payload: TOfferedCourse) => {
 	const isSemesterRegistrationExists = await SemesterRegistration.findById(
 		semesterRegistration
 	);
-
+	const academicSemester = isSemesterRegistrationExists?.academicSemester;
+	if (!academicSemester) {
+		throw new AppError(
+			httpStatus.BAD_REQUEST,
+			"academic semester is not exists"
+		);
+	}
 	if (!isSemesterRegistrationExists) {
 		throw new AppError(
 			httpStatus.BAD_REQUEST,
 			"semesterRegistration is not exists"
 		);
 	}
+
 	const isAcademicFacultyExists = await AcademicFaculty.findById(
 		academicFaculty
 	);
@@ -57,7 +64,7 @@ const createOfferedCourse = async (payload: TOfferedCourse) => {
 		throw new AppError(httpStatus.BAD_REQUEST, "faculty is not exists");
 	}
 
-	const result = await OfferedCourse.create(payload);
+	const result = await OfferedCourse.create({ ...payload, academicSemester });
 
 	return result;
 };

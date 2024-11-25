@@ -12,6 +12,10 @@ export const offeredCourseSchema = new Schema<TOfferedCourse>({
 		type: Schema.Types.ObjectId,
 		ref: "AcademicFaculty",
 	},
+	academicSemester: {
+		type: Schema.Types.ObjectId,
+		ref: "AcademicSemester",
+	},
 	academicDepartment: {
 		type: Schema.Types.ObjectId,
 		ref: "AcademicDepartment",
