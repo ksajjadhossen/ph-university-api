@@ -24,6 +24,11 @@ const userSchema = new Schema<IUser>(
 			enum: ["student", "faculty", "admin"],
 			required: true,
 		},
+		status: {
+			type: String,
+			enum: ["in-progress", "blocked"],
+			default: "in-progress",
+		},
 		isDeleted: { type: Boolean, default: false },
 	},
 	{
@@ -43,5 +48,9 @@ userSchema.post("save", function (doc, next) {
 	doc.password = "";
 	next();
 });
+
+userSchema.statics.isUserExistsByCustomId = async function (id: string) {
+	return await User.findOne({ id });
+};
 
 export const User = model<IUser>("User", userSchema);

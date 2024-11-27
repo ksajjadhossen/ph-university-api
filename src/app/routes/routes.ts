@@ -3,6 +3,7 @@ import { academicDepartmentRoute } from "../modules/academicDepartmant/academicD
 import { academicFacultyRoute } from "../modules/academicFaculty/academicFaculty.route";
 import { academicSemesterRouter } from "../modules/academicSemester/academicSemester.route";
 import { adminRouter } from "../modules/admin/admin.route";
+import { AuthRoute } from "../modules/auth/auth.route";
 import { courseRouter } from "../modules/Course/course.route";
 import { facultyRouter } from "../modules/faculty/faculty.route";
 import { offeredCourseRouter } from "../modules/OfferedCourse/offeredCourse.route";
@@ -52,6 +53,10 @@ const moduleRoutes = [
 	{
 		path: "/offered-course",
 		route: offeredCourseRouter,
+	},
+	{
+		path: "/auth",
+		route: AuthRoute,
 	},
 ];
 

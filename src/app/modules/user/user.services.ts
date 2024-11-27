@@ -55,7 +55,6 @@ const createStudent = async (password: string, payload: IStudent) => {
 				"Transaction failed to create Student"
 			);
 		}
-
 		await session.commitTransaction();
 		await session.endSession();
 		return newStudent;

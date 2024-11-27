@@ -15,7 +15,6 @@ const createOfferedCourse: RequestHandler = catchAsync(async (req, res) => {
 });
 const findAllOfferedCourse: RequestHandler = catchAsync(async (req, res) => {
 	const result = await offeredCourseService.findAllOfferedCourse();
-	console.log(result);
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
 		Success: true,
@@ -38,7 +37,6 @@ const findSingleOfferedCourse: RequestHandler = catchAsync(async (req, res) => {
 const updateOfferedCourse: RequestHandler = catchAsync(async (req, res) => {
 	const { OfferedCourseId } = req.params;
 	const data = req.body;
-	console.log(41, data);
 	const result = await offeredCourseService.updateOfferedCourse(
 		OfferedCourseId,
 		data

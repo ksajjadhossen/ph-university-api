@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Model } from "mongoose";
 
 export interface IUser {
 	user: mongoose.Types.ObjectId;
@@ -6,5 +6,10 @@ export interface IUser {
 	password: string;
 	needsPasswordChange: boolean;
 	role: "student" | "faculty" | "admin";
+	status: "in-progress" | "blocked";
 	isDeleted: boolean;
+}
+
+export interface UserModel extends Model<IUser> {
+	isUserExistsByCustomId(id: string): Promise<IUser>;
 }

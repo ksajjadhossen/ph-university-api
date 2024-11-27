@@ -19,7 +19,6 @@ const findSingleCourseFromDb = async (id: string) => {
 
 const findCoursesFromDb = async () => {
 	const result = await Course.find().populate("prerequisiteCourses.courses");
-	console.log(17, result.toString());
 	return result;
 };
 
@@ -110,7 +109,6 @@ const assignFacultiesIntoDB = async (
 	courseId: string,
 	payload: Partial<TCourseFacultySchema>
 ) => {
-	console.log(payload);
 	const result = await CourseFaculty.findByIdAndUpdate(
 		courseId,
 		{
