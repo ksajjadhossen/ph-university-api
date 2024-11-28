@@ -2,9 +2,9 @@ import bcrypt from "bcrypt";
 
 import { model, Schema } from "mongoose";
 import config from "../../config";
-import { IUser } from "./user.interface";
+import { IUser, UserModel } from "./user.interface";
 
-const userSchema = new Schema<IUser>(
+const userSchema = new Schema<IUser, UserModel>(
 	{
 		id: {
 			type: String,
@@ -53,4 +53,4 @@ userSchema.statics.isUserExistsByCustomId = async function (id: string) {
 	return await User.findOne({ id });
 };
 
-export const User = model<IUser>("User", userSchema);
+export const User = model<IUser, UserModel>("User", userSchema);
