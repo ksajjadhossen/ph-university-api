@@ -4,10 +4,12 @@ import jwt from "jsonwebtoken";
 import config from "../../config";
 import { AppError } from "../../error/appError";
 import { User } from "../user/user.model";
-import { TLoginUser } from "./auth.interface";
+import { TChangePassword, TLoginUser } from "./auth.interface";
 
 const loginUser = async (payload: TLoginUser) => {
-	const isUserExists = await User.findOne({ id: payload?.id });
+	const isUserExists = await User.findOne({ id: payload?.id }).select(
+		"+password"
+	);
 
 	if (!isUserExists) {
 		throw new AppError(httpStatus.BAD_REQUEST, "User is not exists");
@@ -47,10 +49,10 @@ const loginUser = async (payload: TLoginUser) => {
 	};
 };
 
-const changePassword = async (payload: TLoginUser) => {
-	const result = payload;
-	console.log(result);
-	// return result;
+const changePassword = async (payload: TChangePassword, token: string) => {
+	jwt.verify(token, config.jwt_secret_token as string, function (err, decoded) {
+		const data = decoded;
+	});
 };
 
 export const authServices = { loginUser, changePassword };
