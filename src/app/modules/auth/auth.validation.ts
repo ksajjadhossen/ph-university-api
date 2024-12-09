@@ -5,5 +5,14 @@ const loginValidationSchema = z.object({
 		password: z.string({ required_error: "password is required" }),
 	}),
 });
+const changePasswordValidationSchema = z.object({
+	body: z.object({
+		oldPassword: z.string({ required_error: "id is required" }),
+		newPassword: z.string({ required_error: "password is required" }),
+	}),
+});
 
-export const authValidation = { loginValidationSchema };
+export const authValidation = {
+	loginValidationSchema,
+	changePasswordValidationSchema,
+};
