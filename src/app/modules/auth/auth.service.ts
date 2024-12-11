@@ -76,6 +76,8 @@ const changePassword = async (payload: TChangePassword, token: string) => {
 							async function (err, hash) {
 								await User.findOneAndUpdate({
 									password: hash,
+									needsPasswordChange: false,
+									passwordChangedAt: new Date(),
 								});
 								return null;
 							}

@@ -20,6 +20,9 @@ const userSchema = new Schema<IUser, UserModel>(
 			type: Boolean,
 			default: true,
 		},
+		passwordChangedAt: {
+			type: Date,
+		},
 		role: {
 			type: String,
 			enum: ["student", "faculty", "admin"],
