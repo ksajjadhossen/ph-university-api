@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import httpStatus from "http-status";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import config from "../../config";
 import { AppError } from "../../error/appError";
 import { User } from "../user/user.model";
@@ -50,9 +50,41 @@ const loginUser = async (payload: TLoginUser) => {
 };
 
 const changePassword = async (payload: TChangePassword, token: string) => {
-	jwt.verify(token, config.jwt_secret_token as string, function (err, decoded) {
-		const data = decoded;
-	});
+	jwt.verify(
+		token,
+		config.jwt_secret_token as string,
+		async function (err, decoded) {
+			const currentUserId = (decoded as JwtPayload).userId;
+			const isUserExists = await User.findOne({ id: currentUserId }).select(
+				"+password"
+			);
+			console.log(isUserExists);
+			if (!isUserExists) {
+				throw new AppError(httpStatus.NOT_FOUND, "User is not found");
+			}
+
+			const currentHashedPassword = isUserExists?.password;
+			bcrypt.compare(
+				payload.oldPassword,
+				currentHashedPassword as string,
+				async function (err, result) {
+					if (result === true) {
+						console.log("new password", payload.newPassword);
+						bcrypt.hash(
+							payload.newPassword,
+							config.bcrypt_salt_rounds as number,
+							async function (err, hash) {
+								await User.findOneAndUpdate({
+									password: hash,
+								});
+								return null;
+							}
+						);
+					}
+				}
+			);
+		}
+	);
 };
 
 export const authServices = { loginUser, changePassword };
