@@ -10,7 +10,6 @@ import { JwtPayload } from "./../../../node_modules/@types/jsonwebtoken/index.d"
 
 const Auth = (...RequiredRole: TUserRole[]) => {
 	return catchAsync((req: Request, res: Response, next: NextFunction) => {
-		console.log(req.headers.authorization);
 		const token = req.headers.authorization?.split(" ")[1];
 		if (!token) {
 			throw new AppError(httpStatus.UNAUTHORIZED, "You are not authorize.");
@@ -22,22 +21,19 @@ const Auth = (...RequiredRole: TUserRole[]) => {
 			async function (err, decoded) {
 				const { userId, role, iat } = decoded as JwtPayload;
 				const isUserIdExists = await User.findOne({ id: userId });
+
 				if (!isUserIdExists) {
 					throw new AppError(httpStatus.NOT_FOUND, "User not found");
-				}
-
-				const isDeleted = isUserIdExists.isDeleted;
-				if (isDeleted) {
-					throw new AppError(httpStatus.NOT_FOUND, "User is deleted");
 				}
 
 				if (err) {
 					throw new AppError(httpStatus.UNAUTHORIZED, "You are not authorized");
 				}
-				// const role = (decoded as JwtPayload)?.role;
+
 				if (RequiredRole && !RequiredRole.includes(role)) {
 					throw new AppError(httpStatus.UNAUTHORIZED, "You are not authorized");
 				}
+
 				req.user = decoded as JwtPayload;
 
 				next();

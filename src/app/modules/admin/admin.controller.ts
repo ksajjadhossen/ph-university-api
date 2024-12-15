@@ -14,7 +14,6 @@ const crateAdminIntoDb: RequestHandler = catchAsync(async (req, res) => {
 	});
 });
 const getAllAdminsFromDb: RequestHandler = catchAsync(async (req, res) => {
-	console.log("test", req.user);
 	const result = await adminServices.getAllAdminsFromDb();
 	sendResponse(res, {
 		statusCode: httpStatus.OK,

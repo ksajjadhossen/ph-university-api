@@ -29,7 +29,6 @@ const loginUser = async (payload: TLoginUser) => {
 		payload?.password,
 		isUserExists?.password
 	);
-
 	if (!isPasswordMatched) {
 		throw new AppError(httpStatus.BAD_REQUEST, "password does not matched");
 	}
@@ -51,31 +50,50 @@ const loginUser = async (payload: TLoginUser) => {
 
 const changePassword = async (user: JwtPayload, payload: TChangePassword) => {
 	const { userId, role, iat } = user;
-	const isUserExists = await User.findOne({ id: userId }).select("+password");
-	if (!isUserExists) {
+	const isUserExist = await User.findOne({ id: userId }).select("+password");
+	if (!isUserExist || isUserExist.isDeleted) {
 		throw new AppError(httpStatus.NOT_FOUND, "User is not found");
 	}
-	const currentHashedPassword = isUserExists?.password;
-	bcrypt.compare(
-		payload.oldPassword,
-		currentHashedPassword as string,
-		async function (err, result) {
-			if (result === true) {
-				bcrypt.hash(
-					payload.newPassword,
-					config.bcrypt_salt_rounds as number,
-					async function (err, hash) {
-						await User.findOneAndUpdate({
-							password: hash,
-							needsPasswordChange: false,
-							passwordChangedAt: new Date(),
-						});
-						return null;
-					}
-				);
+	const isUserBlocked = isUserExist?.status;
+	if (isUserBlocked === "blocked") {
+		throw new AppError(httpStatus.UNAUTHORIZED, "you are blocked");
+	}
+
+	const currentHashedPassword = isUserExist?.password;
+
+	await new Promise<boolean>((resolve, reject) => {
+		bcrypt.compare(
+			payload.oldPassword,
+			currentHashedPassword as string,
+			(err, result) => {
+				if (err) {
+					return reject(err); // Reject if bcrypt fails
+				}
+				if (!result) {
+					return reject(
+						new AppError(httpStatus.UNAUTHORIZED, "Password does not match")
+					); // Reject with your custom error
+				}
+				resolve(result); // Resolve true if passwords match
 			}
+		);
+	});
+
+	const newHashedPassword = await bcrypt.hash(
+		payload.newPassword,
+		config.bcrypt_salt_rounds as number
+	);
+
+	await User.findOneAndUpdate(
+		{ id: userId }, // Find the user by ID
+		{
+			password: newHashedPassword,
+			needsPasswordChange: false,
+			passwordChangedAt: new Date(),
 		}
 	);
+
+	return null;
 };
 
 export const authServices = { loginUser, changePassword };
