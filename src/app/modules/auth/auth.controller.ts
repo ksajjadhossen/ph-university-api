@@ -14,10 +14,7 @@ const logInUser: RequestHandler = catchAsync(async (req, res) => {
 	});
 });
 const changePassword: RequestHandler = catchAsync(async (req, res) => {
-	const result = await authServices.changePassword(
-		req.body,
-		req.headers.authorization as string
-	);
+	const result = await authServices.changePassword(req.user, req.body);
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
 		message: "Password updated successfully",
