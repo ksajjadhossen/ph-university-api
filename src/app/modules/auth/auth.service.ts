@@ -50,6 +50,8 @@ const loginUser = async (payload: TLoginUser) => {
 
 const changePassword = async (user: JwtPayload, payload: TChangePassword) => {
 	const { userId, role, iat } = user;
+	console.log(payload);
+
 	const isUserExist = await User.findOne({ id: userId }).select("+password");
 	if (!isUserExist || isUserExist.isDeleted) {
 		throw new AppError(httpStatus.NOT_FOUND, "User is not found");
@@ -58,8 +60,20 @@ const changePassword = async (user: JwtPayload, payload: TChangePassword) => {
 	if (isUserBlocked === "blocked") {
 		throw new AppError(httpStatus.UNAUTHORIZED, "you are blocked");
 	}
-
+	console.log(62);
 	const currentHashedPassword = isUserExist?.password;
+
+	const changedPasswordTime = isUserExist?.passwordChangedAt;
+	const exactTime = new Date(changedPasswordTime as Date).getTime() / 1000;
+	console.log(67);
+	const passwordChangedAtInSeconds = Math.floor(exactTime);
+	if (passwordChangedAtInSeconds > iat!) {
+		throw new AppError(
+			httpStatus.UNAUTHORIZED,
+			"Token expired due to recent password change. Please login again."
+		);
+	}
+	console.log(75);
 
 	await new Promise<boolean>((resolve, reject) => {
 		bcrypt.compare(
