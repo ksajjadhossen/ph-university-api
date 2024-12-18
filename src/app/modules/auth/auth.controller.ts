@@ -16,7 +16,7 @@ const logInUser: RequestHandler = catchAsync(async (req, res) => {
 		statusCode: httpStatus.OK,
 		message: "Log in successful",
 		Success: true,
-		data: { accessToken, refreshToken, needsPasswordChange },
+		data: { accessToken, needsPasswordChange },
 	});
 });
 const changePassword: RequestHandler = catchAsync(async (req, res) => {
