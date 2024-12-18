@@ -11,10 +11,19 @@ router.get(
 	Auth(USER_ROLE.admin, USER_ROLE.faculty),
 	facultyController.getAllFaculties
 );
-router.get("/:facultyId", facultyController.getSingleFacultyById);
-router.delete("/:id", facultyController.deleteFacultyById);
+router.get(
+	"/:facultyId",
+	Auth(USER_ROLE.admin, USER_ROLE.faculty),
+	facultyController.getSingleFacultyById
+);
+router.delete(
+	"/:id",
+	Auth(USER_ROLE.admin),
+	facultyController.deleteFacultyById
+);
 router.patch(
 	"/:facultyId",
+	Auth(USER_ROLE.admin),
 	validateRequest(facultyValidationSchema.updateFacultySchema),
 	facultyController.updateFacultyById
 );
