@@ -1,11 +1,12 @@
 import jwt from "jsonwebtoken";
 
-export const crateToken = (
-	JwtPayload: { userId: string; role: string },
+const createToken = (
+	jwtPayload: { userId: string; role: string },
 	secret: string,
 	expiresIn: string
 ) => {
-	jwt.sign(JwtPayload, secret, {
+	return jwt.sign(jwtPayload, secret, {
 		expiresIn,
 	});
 };
+export default createToken;

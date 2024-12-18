@@ -17,7 +17,7 @@ const Auth = (...RequiredRole: TUserRole[]) => {
 
 		jwt.verify(
 			token,
-			config.jwt_secret_token as string,
+			config.jwtAccessSecret as string,
 			async function (err, decoded) {
 				const { userId, role, iat } = decoded as JwtPayload;
 				const isUserIdExists = await User.findOne({ id: userId });

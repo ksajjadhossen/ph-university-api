@@ -1,8 +1,9 @@
 import bcrypt from "bcrypt";
 import httpStatus from "http-status";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import { JwtPayload } from "jsonwebtoken";
 import config from "../../config";
 import { AppError } from "../../error/appError";
+import createToken from "../auth/auth.utils";
 import { User } from "../user/user.model";
 import { TChangePassword, TLoginUser } from "./auth.interface";
 
@@ -38,9 +39,11 @@ const loginUser = async (payload: TLoginUser) => {
 		role: isUserExists?.role,
 	};
 
-	const accessToken = jwt.sign(jwtPayload, config.jwt_secret_token as string, {
-		expiresIn: "10d",
-	});
+	const accessToken = createToken(
+		jwtPayload,
+		config.jwtAccessSecret as string,
+		config.jwtAccessSecretExpiresIn as string
+	);
 
 	return {
 		accessToken,
